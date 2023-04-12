@@ -1,9 +1,18 @@
 .PHONY: build 
 
-FIGURETEX := $(wildcard anim/*.tex) $(wildcard static/*.tex)
+TEX_GENERATORS := $(wildcard **/tex.gen.py)
+TEX_GENERATED := $(GENERATORS:.gen.py=)
+
+FIGURETEX := $(wildcard anim/*.tex) $(wildcard static/*.tex) $(TEX_GENERATED)
 FIGUREPDF := $(FIGURETEX:.tex=.pdf)
 
 default: build
+
+anim/%: anim/%.gen.py
+	python3 anim/$*.gen.py > anim/$*
+
+static/%: static/%.gen.py
+	python3 static/$*.gen.py > static/$*
 
 build: tdd.pdf
 

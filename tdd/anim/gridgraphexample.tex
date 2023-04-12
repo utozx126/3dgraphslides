@@ -6,7 +6,12 @@
     \tdplotsetrotatedcoords{0}{0}{\rot}
     \begin{tikzpicture}[tdplot_rotated_coords,scale=1,line join=round]
     \useasboundingbox (-3cm, -3cm) -- (3cm, 3cm);
-
+    \foreach\x in {-1, 0, 1} 
+    \foreach\y in {-1, 0, 1} 
+    \foreach\z in {-1, 0, 1} 
+    {
+	\fill (\x, \y, \z) circle [radius = 0.1] node[below right] {\x/\y/\z};
+    }
 \end{tikzpicture}
 }
 \end{document}

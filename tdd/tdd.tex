@@ -57,9 +57,9 @@ ETH Zürich}
 % the beginning of each subsection:
 \AtBeginSubsection[]
 {
-  \begin{frame}<beamer>{Outline}
-    \tableofcontents[currentsection,currentsubsection]
-  \end{frame}
+    \begin{frame}<beamer>{Outline}
+	\tableofcontents[currentsection,currentsubsection]
+    \end{frame}
 }
 
 
@@ -73,82 +73,99 @@ ETH Zürich}
     \includegraphics[page=#1]{#2.pdf}
 }
 
+\newcommand\footcite[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
 \begin{document}
-
 \begin{frame}
-  \titlepage
+    \titlepage
 \end{frame}
 
 \begin{frame}{Outline}
-\tableofcontents[pausesections]
+    \tableofcontents[pausesections]
  % You might wish to add the option [pausesections]
 \end{frame}
-
-% Since this a solution template for a generic talk, very little can
-% be said about how it should be structured. However, the talk length
-% of between 15min and 45min and the theme suggest that you stick to
-% the following rules:  
-
-% - Exactly two or three sections (other than the summary).
-% - At *most* three subsections per section.
-% - Talk about 30s to 2min per frame. So there should be between about
-%   15 and 30 frames, all told.
-
 
 \section{Motivation for 3D drawings}
 \section{b}
 \begin{frame}{Why 3D drawings?}{}
-  \begin{itemize}
-  \item<+->
-    Aesthetic
+    \begin{itemize}
+	\item<+->
+	    Nice-looking and easy-to-understand graphs
 
-    \only<+> {
-	\still{static/icosahedralgraph}
-    }
-    \only<+> {
-	\still{static/cube}
-    }
-    \only<+> {
-	\still{anim/icosahedron}
-    }
-    \only<+> {
-	\animategraphics[autoplay, loop]{10}{anim/icosahedron}{}{}
-    }
-  \item<+->
-      User Interfaces \only<+->{(Virtual Reality?)}
-  \end{itemize}
+	    \only<+> {
+		\still{static/icosahedralgraph}
+	    }
+	    \only<+> {
+		\still{static/cube}
+	    }
+	    \only<+> {
+		\still{anim/icosahedron}
+	    }
+	    \only<+> {
+		\animategraphics[autoplay, loop]{20}{anim/icosahedron}{}{}
+	    }
+	    \only<+> {
+		\still{anim/rand3d}
+	    }
+	    \only<+> {
+		\animategraphics[autoplay, loop]{20}{anim/rand3d}{}{}
+	    }
+	\item<+->
+	    User Interfaces 
+	    \only<+>{
+		\includegraphics[height=0.6\paperheight, page=5, trim={0 17cm 0 0}, clip]{figures/Conetrees.5.pdf}
+		\footcite{Figure from: George, Jock and Stuart (1991): \textit{Cone Trees: Animated 3D Visualizations of Hierarchical Information}}
+	    }
+	    \only<+->{(Virtual Reality?)}
+    \end{itemize}
 \end{frame}
-\includepdf[pages=1]{anim/test.pdf}
+
+\begin{frame}{Main result}
+    \footcite{Theorem from: Dujmović, Joret, Micek, Morin, Ueckerdt and Wood (2020): \textit{Planar Graphs Have Bounded Queue Number}}
+    \begin{theorem}
+	Every planar graph with $n$ vertices has a 3-dimensional straight-line drawing \pause on the integer grid \pause with $\mathcal O(n)$ Volume.
+    \end{theorem}
+    \only<1>{
+	\animategraphics[autoplay, loop]{20}{anim/rand3d}{}{}
+    }
+    \only<2-3>{
+	\animategraphics[autoplay, loop]{20}{anim/gridgraphexample}{}{}
+    }
+\end{frame}
 
 \begin{frame}{Make Titles Informative.}
 
-  You can create overlays\dots
-  \begin{itemize}
-  \item using the \texttt{pause} command:
+    You can create overlays\dots
     \begin{itemize}
-    \item
-      First item.
-      \pause
-    \item    
-      Second item.
+	\item using the \texttt{pause} command:
+	    \begin{itemize}
+		\item
+		    First item.
+		    \pause
+		\item    
+		    Second item.
+	    \end{itemize}
+	\item
+	    using overlay specifications:
+	    \begin{itemize}
+		\item<3->
+		    First item.
+		\item<4->
+		    Second item.
+	    \end{itemize}
+	\item
+	    using the general \texttt{uncover} command:
+	    \begin{itemize}
+		    \uncover<5->{\item
+		    First item.}
+		    \uncover<6->{\item
+		    Second item.}
+	    \end{itemize}
     \end{itemize}
-  \item
-    using overlay specifications:
-    \begin{itemize}
-    \item<3->
-      First item.
-    \item<4->
-      Second item.
-    \end{itemize}
-  \item
-    using the general \texttt{uncover} command:
-    \begin{itemize}
-      \uncover<5->{\item
-        First item.}
-      \uncover<6->{\item
-        Second item.}
-    \end{itemize}
-  \end{itemize}
 \end{frame}
 
 
@@ -167,27 +184,27 @@ ETH Zürich}
 \begin{frame}{Summary}
 
   % Keep the summary *very short*.
-  \begin{itemize}
-  \item
-    The \alert{first main message} of your talk in one or two lines.
-  \item
-    The \alert{second main message} of your talk in one or two lines.
-  \item
-    Perhaps a \alert{third message}, but not more than that.
-  \end{itemize}
-  
-  % The following outlook is optional.
-  \vskip0pt plus.5fill
-  \begin{itemize}
-  \item
-    Outlook
     \begin{itemize}
-    \item
-      Something you haven't solved.
-    \item
-      Something else you haven't solved.
+	\item
+	    The \alert{first main message} of your talk in one or two lines.
+	\item
+	    The \alert{second main message} of your talk in one or two lines.
+	\item
+	    Perhaps a \alert{third message}, but not more than that.
     \end{itemize}
-  \end{itemize}
+
+  % The following outlook is optional.
+    \vskip0pt plus.5fill
+    \begin{itemize}
+	\item
+	    Outlook
+	    \begin{itemize}
+		\item
+		    Something you haven't solved.
+		\item
+		    Something else you haven't solved.
+	    \end{itemize}
+    \end{itemize}
 \end{frame}
 
 
