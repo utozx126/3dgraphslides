@@ -1,0 +1,26 @@
+\documentclass[tikz]{standalone}
+\usepackage{tikz-3dplot}
+\begin{document}
+\tdplotsetmaincoords{40}{100}
+\foreach \rot in {0, 20, ..., 350} {
+    \tdplotsetrotatedcoords{0}{0}{\rot}
+    \begin{tikzpicture}[tdplot_rotated_coords,scale=1,line join=round]
+    \useasboundingbox (-3cm, -3cm) -- (3cm, 3cm);
+
+    \pgfmathsetmacro\a{1}
+    \path 
+    \foreach \x in {0, 1} 
+    \foreach \y in {0, 1} 
+    \foreach \z in {0, 1} 
+    {coordinate(\x\y\z) at (3*\x-1.5, 3*\y-1.5, 3*\z-1.5) };
+    \draw
+    \foreach \xa in {0, 1}
+    \foreach \xb in {0, 1}
+    \foreach \ya in {0, 1}
+    \foreach \yb in {0, 1}
+    \foreach \za in {0, 1}
+    \foreach \zb in {0, 1}
+    {(\xa\ya\za) -- (\xb\yb\zb)};
+\end{tikzpicture}
+}
+\end{document}

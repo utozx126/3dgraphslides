@@ -1,0 +1,11 @@
+**/.DS_Store
+acycliccoloring/
+**.aux
+**.log
+**.nav
+**.out
+**.pdf
+**.snm
+**.toc
+tdd/build/
+tdd/preview.tex

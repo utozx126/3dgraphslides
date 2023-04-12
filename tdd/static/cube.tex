@@ -1,0 +1,27 @@
+\documentclass[tikz]{standalone}
+\usepackage{tikz-3dplot}
+\begin{document}
+\tdplotsetmaincoords{40}{100}
+    \begin{tikzpicture}[tdplot_main_coords,scale=1,line join=round]
+    \useasboundingbox (-3cm, -3cm) -- (3cm, 3cm);
+
+    \pgfmathsetmacro\a{1}
+    \path 
+    \foreach \x in {0, 1} 
+    \foreach \y in {0, 1} 
+    \foreach \z in {0, 1} 
+    {coordinate(\x\y\z) at (3*\x-1.5, 3*\y-1.5, 3*\z-1.5) };
+    \draw
+    \foreach \y in {0, 1}
+    \foreach \z in {0, 1}
+    {(0\y\z) -- (1\y\z)};
+    \draw
+    \foreach \x in {0, 1}
+    \foreach \z in {0, 1}
+    {(\x0\z) -- (\x0\z)};
+    \draw
+    \foreach \x in {0, 1}
+    \foreach \y in {0, 1}
+    {(\x\y0) -- (\x\y1)};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,14 @@
+\documentclass[tikz]{standalone}
+\usepackage{animate}
+\usepackage{fontawesome}
+\begin{document}
+
+\foreach \y  in {0,.2,...,3}{% cut out the parallelogram
+    \begin{tikzpicture}
+        \useasboundingbox (-2.5,-.5) rectangle (4,4);
+	\draw (0, \y) circle [radius = 2];
+    \end{tikzpicture}
+}   
+ 
+   
+\end{document}
