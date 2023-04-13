@@ -1,0 +1,17 @@
+\documentclass[tikz]{standalone}
+\usepackage{tikz-3dplot}
+\begin{document}
+\tdplotsetmaincoords{40}{100}
+\foreach \rot in {0, 1, ..., 359} {
+    \tdplotsetrotatedcoords{0}{0}{\rot}
+    \begin{tikzpicture}[tdplot_rotated_coords,scale=0.7,line join=round]
+    \useasboundingbox (-3cm, -3cm) -- (3cm, 3cm);
+    \foreach\x/\c in {-2/orange, -1/red, 0/purple, 1/blue, 2/green} 
+    \foreach\y in {-2, -1, 0, 1, 2} 
+    \foreach\z in {-2, -1, 0, 1, 2} 
+    {
+	\fill[\c] (\x, \y, \z) circle [radius = 0.05];
+    }
+\end{tikzpicture}
+}
+\end{document}

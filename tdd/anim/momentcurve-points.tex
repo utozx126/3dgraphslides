@@ -1,0 +1,21 @@
+\documentclass[tikz]{standalone}
+\usepackage{tikz-3dplot}
+\begin{document}
+\tdplotsetmaincoords{40}{100}
+\foreach \rot in {0, 10, ..., 359} {
+    \tdplotsetrotatedcoords{0}{0}{\rot}
+    \begin{tikzpicture}[scale=0.5, shift={(-2, -2, -2)}, tdplot_rotated_coords,scale=1,line join=round]
+    \useasboundingbox (-6cm, -6cm) -- (6cm, 6cm);
+    \draw[->] (-4,0,0) -- (4, 0, 0);
+    \draw[->] (0,-4,0) -- (0, 4, 0);
+    \draw[->] (0,0,-4) -- (0, 0, 4);
+    \node at (5,0,0) {x};
+    \node at (0,5,0) {y};
+    \node at (0,0,5) {z};
+    \draw (-4, 4*4, -4*4*4) \foreach \t in {-4, -3.9, ..., 4} { -- (\t, \t*\t, \t*\t*\t) } ;
+    \foreach \t in {0, 1, 2, 3, 4} {
+	\fill (\t, \t*\t, \t*\t*\t) circle [radius = 0.1];
+    }
+\end{tikzpicture}
+}
+\end{document}

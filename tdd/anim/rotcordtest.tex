@@ -1,0 +1,25 @@
+%        File: rotcordtest.tex
+%     Created: Thu Apr 13 09:00 am 2023 C
+% Last Change: Thu Apr 13 09:00 am 2023 C
+%
+\documentclass[tikz]{standalone}
+\usepackage{tikz-3dplot}
+\begin{document}
+\tdplotsetmaincoords{70}{110}
+\begin{tikzpicture}[tdplot_main_coords]
+    \draw[thick,->] (0,0,0) -- (1,0,0) node[anchor=north east]{$x$};
+    \draw[thick,->] (0,0,0) -- (0,1,0) node[anchor=north west]{$y$};
+    \draw[thick,->] (0,0,0) -- (0,0,1) node[anchor=south]{$z$};
+    \tdplotsetrotatedcoords{60}{40}{30}
+    \coordinate (Shift) at (1, 0, 0);
+    \tdplotsetrotatedcoordsorigin{(Shift)}
+    \draw[thick,color=blue,tdplot_rotated_coords,->] (0,0,0) --
+        (.7,0,0) node[anchor=north]{$x’$};
+    \draw[thick,color=blue,tdplot_rotated_coords,->] (0,0,0) --
+        (0,.7,0) node[anchor=west]{$y’$};
+    \draw[thick,color=blue,tdplot_rotated_coords,->] (0,0,0) --
+        (0,0,.7) node[anchor=south]{$z’$};
+\end{tikzpicture}
+\end{document}
+
+
