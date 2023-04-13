@@ -1,12 +1,14 @@
-\documentclass{beamer}
+\documentclass[t]{beamer}
 \usepackage{tikz}
 \usepackage{pdfpages}
 \usepackage{animate}
 
-\usetheme{Warsaw}
+\usetheme{Montpellier}
 % or ...
+% \usecolortheme{dove}
+\useoutertheme{infolines}
 
-% \setbeamercovered{transparent}
+\setbeamercovered{transparent}
 % or whatever (possibly just delete it)
 
 
@@ -90,7 +92,6 @@ ETH Zürich}
 \end{frame}
 
 \section{Motivation for 3D drawings}
-\section{b}
 \begin{frame}{Why 3D drawings?}{}
     \begin{itemize}
 	\item<+->
@@ -127,14 +128,147 @@ ETH Zürich}
 \begin{frame}{Main result}
     \footcite{Theorem from: Dujmović, Joret, Micek, Morin, Ueckerdt and Wood (2020): \textit{Planar Graphs Have Bounded Queue Number}}
     \begin{theorem}
-	Every planar graph with $n$ vertices has a 3-dimensional straight-line drawing \pause on the integer grid \pause with $\mathcal O(n)$ Volume.
+	\uncover<+->{Every planar graph with $n$ vertices has a 3-dimensional straight-line drawing on the integer grid}
+	\uncover<+->{with $\mathcal O(n)$ Volume.}
     \end{theorem}
-    \only<1>{
-	\animategraphics[autoplay, loop]{20}{anim/rand3d}{}{}
-    }
-    \only<2-3>{
+    \begin{center}
 	\animategraphics[autoplay, loop]{20}{anim/gridgraphexample}{}{}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Why is this interesting?}
+\end{frame}
+
+\section{Results for general graphs}
+
+\begin{frame}{The Moment Curve}
+    \footcite{Theorem and proof from Cohen, Eades, Tao Lin and Ruskey: \textit{Three-Dimensional Graph Drawing}}
+    \uncover<+->{
+	\begin{theorem}
+	    Every graph with $n$ vertices has a 3-dimensional straight-line drawing 
+	    on the integer grid
+	    with $\mathcal O(n^6)$ Volume.
+	\end{theorem}
     }
+    \begin{proof}<+->
+	\begin{itemize}
+	    \item<.-> Draw vertex $v$ at $(v, v^2, v^3)$
+		\only<.>{
+		    \begin{center}
+			\animategraphics[autoplay, loop]{2}{anim/momentcurve}{}{}
+		    \end{center}
+		}
+	    \item<+-> No four points on the Moment Curve are coplanar
+		\only<+>{
+		    \begin{itemize}
+			\item Four points $(x_i, y_i, z_i)$ for $i\in\left\{ 0, 1, 2, 3 \right\}$ are coplanar iff 
+			    \begin{equation*}
+				\det\left(
+				\begin{matrix}
+				    1&x_0&y_0&z_0\\
+				    1&x_1&y_1&z_1\\
+				    1&x_2&y_2&z_2\\
+				    1&x_3&y_3&z_3\\
+				\end{matrix}
+			    \right) = 0
+			    \end{equation*}
+		    \end{itemize}
+		}
+		\only<+-+(+1)>{
+		    \begin{itemize}
+			\item Four points $(v_i, v_i^2, v_i^3)$ for $i\in\left\{ 0, 1, 2, 3 \right\}$ are coplanar iff 
+			    \begin{equation*}
+				\det\left(
+				\begin{matrix}
+				    1&v_0&v_0^2&v_0^3\\
+				    1&v_1&v_1^2&v_1^3\\
+				    1&v_2&v_2^2&v_2^3\\
+				    1&v_3&v_3^2&v_3^3\\
+				\end{matrix}
+			    \right) = 0
+			    \end{equation*}
+			\item<+> {
+				This is the Vandermonde Matrix with determinant $\prod_{0 \le i < j < 4} (v_j - v_i) \neq 0$
+			}
+		    \end{itemize}
+		}
+	    \item<+-> No four vertices are coplanar $\implies$ No two edges cross
+	\end{itemize}
+    \end{proof}
+\end{frame}
+
+\begin{frame}{The Modular Moment Curve}
+    \footcite{Theorem and proof from Cohen, Eades, Tao Lin and Ruskey: \textit{Three-Dimensional Graph Drawing}}
+    \uncover<+->{
+	\begin{theorem}
+	    Every graph with $n$ vertices has a 3-dimensional straight-line drawing 
+	    on the integer grid
+	    with $\mathcal O(n^{\alert<.>{3}})$ Volume.
+	\end{theorem}
+    }
+    \begin{proof}<+->
+	\begin{itemize}
+	    \item<.-> Draw vertex $v$ at $(v, v^2\alert<.>{\mod p}, v^3\alert<.>{\mod p})$ \alert<.>{with $n \le p < 2n$, $p$ prime}
+		\only<.>{
+		    \begin{center}
+			\animategraphics[autoplay, loop]{20}{anim/modularmomentcurve}{}{}
+		    \end{center}
+		}
+		\only<+>{
+		    \begin{center}
+			\animategraphics[autoplay, loop]{20}{anim/modularmomentcompletegraph}{}{}
+		    \end{center}
+		}
+	    \item<+-> No four such vertices are coplanar
+		\only<+-+(+3)>{
+		    \begin{itemize}
+			\item The vertices $v_0, v_1, v_2, v_3$ are coplanar iff 
+			    \begin{equation*}
+				\det\left(
+				\begin{matrix}
+				    1&v_0&v_0^2\alert<.>{\mod p}&v_0^3\alert<.>{\mod p}\\
+				    1&v_1&v_1^2\alert<.>{\mod p}&v_1^3\alert<.>{\mod p}\\
+				    1&v_2&v_2^2\alert<.>{\mod p}&v_2^3\alert<.>{\mod p}\\
+				    1&v_3&v_3^2\alert<.>{\mod p}&v_3^3\alert<.>{\mod p}\\
+				\end{matrix}
+			    \right) = 0
+			    \end{equation*}
+			\item<+-+(+2)> {
+				This determinant is $\alert<.>{\equiv} \prod_{0 \le i < j < 4} \alt<+>{\underbrace{(v_j-v_i)}_{\not\equiv0}}{(v_j - v_i)} \uncover<+>{\alert<.>{\not\equiv} 0} \alert<.(-2)>{\pmod p}$
+			}
+		    \end{itemize}
+		}
+	    \item<+-> No four vertices are coplanar $\implies$ No two edges cross
+	\end{itemize}
+    \end{proof}
+\end{frame}
+
+\begin{frame}{$\mathcal O(n^3)$ is tight for complete graphs}
+    \footcite{Theorem and proof from Cohen, Eades, Tao Lin and Ruskey: \textit{Three-Dimensional Graph Drawing}}
+    \begin{itemize}
+	\item Cut grid into planes \pause
+	\item At most four vertices per plane\pause
+	\item At least $\lceil\frac{n}{4}\rceil$ layers in each dimension\pause
+	\item At least $\lceil\frac{n}{4}\rceil^{3} \in \Omega(n^3)$ Volume
+    \end{itemize}
+    \only<*>{
+	\begin{center}
+	    \animategraphics[autoplay, loop]{20}{anim/upperboundgrid}{}{}
+	\end{center}
+    }
+\end{frame}
+
+\section{Proof of the main result}
+
+\subsection{Track Layouts to 3D drawings}
+
+\begin{frame}{Track Layouts}
+    \still{static/cube}
+    \still{static/cube}
+    \still{static/cube}
+    \begin{definition}[Track Layout]
+	A $t$-track layout of a graph $G$ is a partition into $t$ 
+    \end{definition}
 \end{frame}
 
 \begin{frame}{Make Titles Informative.}
