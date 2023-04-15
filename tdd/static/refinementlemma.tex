@@ -1,16 +1,21 @@
 \PassOptionsToPackage{dvipsnames}{xcolor}
-\documentclass[tikz]{standalone}
+\documentclass[tikz]{standalone}%{{{
 \usepackage[]{amsmath}
 \usetikzlibrary{positioning}
+\usepackage{transparent}
 
     %\path [fill = <++>, draw = <++>, line width = 4] (<++>) circle [radius = 0.3];
 
 \DeclareMathOperator{\col}{col}
 \def\vertexcolor{\color{BrickRed}}
-\def\edgecolor{\color{ForestGreen}}
+\def\edgecolor{\color{ForestGreen}}%}}}
 \def\v#1{{\vertexcolor#1}}
 \def\e#1{{\edgecolor#1}}
+\def\hide#1{{\transparent{0.5}#1}}
+\tikzset{hide/.style = {opacity=0.3}}
 \begin{document}
+
+% {{{ to refine
 \begin{tikzpicture}
     \draw [violet, line width = 4] (0,0) -- (2,0);
     \draw [violet, line width = 4] (0,2) -- (2,2);
@@ -38,7 +43,9 @@
     \path [fill = blue,  line width = 4] (0,6) circle [radius = 0.4];
     \path [fill = red,   line width = 4] (2,6) circle [radius = 0.4];
 \end{tikzpicture}
+% }}}
 
+% {{{ refined
 \begin{tikzpicture}
     \draw [violet, line width = 4] (0,0) -- (2,0);
     \draw [violet, line width = 4] (0,2) -- (2,2);
@@ -75,6 +82,9 @@
     \path [draw = blue,  line width = 2] (0,6) circle [radius = 0.37];
     \path [draw = red,   line width = 2] (2,6) circle [radius = 0.37];
 \end{tikzpicture}
+% }}}
+
+% {{{ Only col
 \begin{tikzpicture}[line width=2]
     \begin{scope}[every node/.append style={draw, circle, node font=\large, inner sep=3pt}]
 	\node (A) at (0,  0) {A};
@@ -95,14 +105,440 @@
     \end{scope}
 
     % Node colors
-    \node [left=0.05 of A, anchor=east, align=right, node font=\large] {$\v\col(A)=\v0$\\$\e\col_{\v{01}}(A)=\e0$\\$\e\col_{\v{02}}(A)=\e0$};
+    \node [left=0.05 of A, anchor=east, align=right, node font=\large] {$\v\col(A)=\v0$\\\\};
+    \node [left=0.05 of C, anchor=east, align=right, node font=\large] {$\v\col(C)=\v1$\\\\};
+    \node [left=0.05 of E, anchor=east, align=right, node font=\large] {$\v\col(E)=\v0$\\\\};
+    \node [left=0.05 of G, anchor=east, align=right, node font=\large] {$\v\col(G)=\v1$\\\\};
+
+    \node [right=0.05 of B, anchor=west, align=right, node font=\large] {$\v\col(B)=\v2$\\\\};
+    \node [right=0.05 of D, anchor=west, align=right, node font=\large] {$\v\col(D)=\v0$\\\\};
+    \node [right=0.05 of F, anchor=west, align=right, node font=\large] {$\v\col(F)=\v2$\\\\};
+    \node [right=0.05 of H, anchor=west, align=right, node font=\large] {$\v\col(H)=\v0$\\\\};
+\end{tikzpicture}
+% }}}
+
+% {{{ Only 01 without col01
+\begin{tikzpicture}[line width=2]
+    \begin{scope}[every node/.append style={draw, circle, node font=\large, inner sep=3pt}]
+	\node (A) at (0,  0) {A};
+	\node [hide] (B) at (1.5,0) {B};
+	\node (C) at (0,  2) {C};
+	\node (D) at (1.5,2) {D};
+	\node (E) at (0,  4) {E};
+	\node [hide] (F) at (1.5,4) {F};
+	\node (G) at (0,  6) {G};
+	\node (H) at (1.5,6) {H};
+    \end{scope}
+
+    \begin{scope}[every node/.append style={fill=white, node font=\large\edgecolor, circle, inner sep=1pt}]
+	\draw [hide] (A) -- node [inner sep = 0] {1} (B) 
+	(E) -- node [inner sep=0] {1} (F);
+	\draw 
+	(C) -- node [inner sep=0] {1} (D)
+	(G) -- node [inner sep=0] {1} (H);
+	\draw (A) -- node {0} (C) -- node {0} (E) -- node {0} (G);
+	\draw [hide] (B) -- node {0} (D) -- node {0} (F) -- node {0} (H);
+	\draw [hide] (B) -- node {0} (C) -- node {0} (F) -- node {0} (G);
+    \end{scope}
+
+    % Node colors
+    \node [left=0.05 of A, anchor=east, align=right, node font=\large] {\hide{$\v\col(A)=\v0$}\\\\};
+    \node [left=0.05 of C, anchor=east, align=right, node font=\large] {\hide{$\v\col(C)=\v1$}\\\\};
+    \node [left=0.05 of E, anchor=east, align=right, node font=\large] {\hide{$\v\col(E)=\v0$}\\\\};
+    \node [left=0.05 of G, anchor=east, align=right, node font=\large] {\hide{$\v\col(G)=\v1$}\\\\};
+
+    \node [right=0.05 of B, anchor=west, align=right, node font=\large] {\hide{$\v\col(B)=\v2$}\\\\};
+    \node [right=0.05 of D, anchor=west, align=right, node font=\large] {\hide{$\v\col(D)=\v0$}\\\\};
+    \node [right=0.05 of F, anchor=west, align=right, node font=\large] {\hide{$\v\col(F)=\v2$}\\\\};
+    \node [right=0.05 of H, anchor=west, align=right, node font=\large] {\hide{$\v\col(H)=\v0$}\\\\};
+\end{tikzpicture}
+% }}}
+
+% {{{ Only col01 A
+\begin{tikzpicture}[line width=2]
+    \begin{scope}[every node/.append style={draw, circle, node font=\large, inner sep=3pt}]
+	\node (A) at (0,  0) {A};
+	\node [hide] (B) at (1.5,0) {B};
+	\node (C) at (0,  2) {C};
+	\node (D) at (1.5,2) {D};
+	\node (E) at (0,  4) {E};
+	\node [hide] (F) at (1.5,4) {F};
+	\node (G) at (0,  6) {G};
+	\node (H) at (1.5,6) {H};
+    \end{scope}
+
+    \begin{scope}[every node/.append style={fill=white, node font=\large\edgecolor, circle, inner sep=1pt}]
+	\draw [hide] (A) -- node [inner sep = 0] {1} (B) 
+	(E) -- node [inner sep=0] {1} (F);
+	\draw 
+	(C) -- node [inner sep=0] {1} (D)
+	(G) -- node [inner sep=0] {1} (H);
+	\draw (A) -- node {0} (C) -- node {0} (E) -- node {0} (G);
+	\draw [hide] (B) -- node {0} (D) -- node {0} (F) -- node {0} (H);
+	\draw [hide] (B) -- node {0} (C) -- node {0} (F) -- node {0} (G);
+    \end{scope}
+
+    % Node colors
+    \node [left=0.05 of A, anchor=east, align=right, node font=\large] {\hide{$\v\col(A)=\v0$}\\$\e\col_{\v{01}}(A)=\e0$\\};
+    \node [left=0.05 of C, anchor=east, align=right, node font=\large] {\hide{$\v\col(C)=\v1$}\\\\};
+    \node [left=0.05 of E, anchor=east, align=right, node font=\large] {\hide{$\v\col(E)=\v0$}\\\\};
+    \node [left=0.05 of G, anchor=east, align=right, node font=\large] {\hide{$\v\col(G)=\v1$}\\\\};
+
+    \node [right=0.05 of B, anchor=west, align=right, node font=\large] {\hide{$\v\col(B)=\v2$}\\\\};
+    \node [right=0.05 of D, anchor=west, align=right, node font=\large] {\hide{$\v\col(D)=\v0$}\\\\};
+    \node [right=0.05 of F, anchor=west, align=right, node font=\large] {\hide{$\v\col(F)=\v2$}\\\\};
+    \node [right=0.05 of H, anchor=west, align=right, node font=\large] {\hide{$\v\col(H)=\v0$}\\\\};
+\end{tikzpicture}
+% }}}
+
+% {{{ Only col01 AC
+\begin{tikzpicture}[line width=2]
+    \begin{scope}[every node/.append style={draw, circle, node font=\large, inner sep=3pt}]
+	\node (A) at (0,  0) {A};
+	\node [hide] (B) at (1.5,0) {B};
+	\node (C) at (0,  2) {C};
+	\node (D) at (1.5,2) {D};
+	\node (E) at (0,  4) {E};
+	\node [hide] (F) at (1.5,4) {F};
+	\node (G) at (0,  6) {G};
+	\node (H) at (1.5,6) {H};
+    \end{scope}
+
+    \begin{scope}[every node/.append style={fill=white, node font=\large\edgecolor, circle, inner sep=1pt}]
+	\draw [hide] (A) -- node [inner sep = 0] {1} (B) 
+	(E) -- node [inner sep=0] {1} (F);
+	\draw 
+	(C) -- node [inner sep=0] {1} (D)
+	(G) -- node [inner sep=0] {1} (H);
+	\draw (A) -- node {0} (C) -- node {0} (E) -- node {0} (G);
+	\draw [hide] (B) -- node {0} (D) -- node {0} (F) -- node {0} (H);
+	\draw [hide] (B) -- node {0} (C) -- node {0} (F) -- node {0} (G);
+    \end{scope}
+
+    % Node colors
+    \node [left=0.05 of A, anchor=east, align=right, node font=\large] {\hide{$\v\col(A)=\v0$}\\$\e\col_{\v{01}}(A)=\e0$\\};
+    \node [left=0.05 of C, anchor=east, align=right, node font=\large] {\hide{$\v\col(C)=\v1$}\\$\e\col_{\v{01}}(C)=\e0$\\};
+    \node [left=0.05 of E, anchor=east, align=right, node font=\large] {\hide{$\v\col(E)=\v0$}\\\\};
+    \node [left=0.05 of G, anchor=east, align=right, node font=\large] {\hide{$\v\col(G)=\v1$}\\\\};
+
+    \node [right=0.05 of B, anchor=west, align=right, node font=\large] {\hide{$\v\col(B)=\v2$}\\\\};
+    \node [right=0.05 of D, anchor=west, align=right, node font=\large] {\hide{$\v\col(D)=\v0$}\\\\};
+    \node [right=0.05 of F, anchor=west, align=right, node font=\large] {\hide{$\v\col(F)=\v2$}\\\\};
+    \node [right=0.05 of H, anchor=west, align=right, node font=\large] {\hide{$\v\col(H)=\v0$}\\\\};
+\end{tikzpicture}
+% }}}
+
+% {{{ Only col01 ACD
+\begin{tikzpicture}[line width=2]
+    \begin{scope}[every node/.append style={draw, circle, node font=\large, inner sep=3pt}]
+	\node (A) at (0,  0) {A};
+	\node [hide] (B) at (1.5,0) {B};
+	\node (C) at (0,  2) {C};
+	\node (D) at (1.5,2) {D};
+	\node (E) at (0,  4) {E};
+	\node [hide] (F) at (1.5,4) {F};
+	\node (G) at (0,  6) {G};
+	\node (H) at (1.5,6) {H};
+    \end{scope}
+
+    \begin{scope}[every node/.append style={fill=white, node font=\large\edgecolor, circle, inner sep=1pt}]
+	\draw [hide] (A) -- node [inner sep = 0] {1} (B) 
+	(E) -- node [inner sep=0] {1} (F);
+	\draw 
+	(C) -- node [inner sep=0] {1} (D)
+	(G) -- node [inner sep=0] {1} (H);
+	\draw (A) -- node {0} (C) -- node {0} (E) -- node {0} (G);
+	\draw [hide] (B) -- node {0} (D) -- node {0} (F) -- node {0} (H);
+	\draw [hide] (B) -- node {0} (C) -- node {0} (F) -- node {0} (G);
+    \end{scope}
+
+    % Node colors
+    \node [left=0.05 of A, anchor=east, align=right, node font=\large] {\hide{$\v\col(A)=\v0$}\\$\e\col_{\v{01}}(A)=\e0$\\};
+    \node [left=0.05 of C, anchor=east, align=right, node font=\large] {\hide{$\v\col(C)=\v1$}\\$\e\col_{\v{01}}(C)=\e0$\\};
+    \node [left=0.05 of E, anchor=east, align=right, node font=\large] {\hide{$\v\col(E)=\v0$}\\\\};
+    \node [left=0.05 of G, anchor=east, align=right, node font=\large] {\hide{$\v\col(G)=\v1$}\\\\};
+
+    \node [right=0.05 of B, anchor=west, align=right, node font=\large] {\hide{$\v\col(B)=\v2$}\\\\};
+    \node [right=0.05 of D, anchor=west, align=right, node font=\large] {\hide{$\v\col(D)=\v0$}\\$\e\col_{\v{01}}(D)=\e1$\\};
+    \node [right=0.05 of F, anchor=west, align=right, node font=\large] {\hide{$\v\col(F)=\v2$}\\\\};
+    \node [right=0.05 of H, anchor=west, align=right, node font=\large] {\hide{$\v\col(H)=\v0$}\\\\};
+\end{tikzpicture}
+% }}}
+
+% {{{ Only col01, 01 highlighted
+\begin{tikzpicture}[line width=2]
+    \begin{scope}[every node/.append style={draw, circle, node font=\large, inner sep=3pt}]
+	\node (A) at (0,  0) {A};
+	\node [hide] (B) at (1.5,0) {B};
+	\node (C) at (0,  2) {C};
+	\node (D) at (1.5,2) {D};
+	\node (E) at (0,  4) {E};
+	\node [hide] (F) at (1.5,4) {F};
+	\node (G) at (0,  6) {G};
+	\node (H) at (1.5,6) {H};
+    \end{scope}
+
+    \begin{scope}[every node/.append style={fill=white, node font=\large\edgecolor, circle, inner sep=1pt}]
+	\draw [hide] (A) -- node [inner sep = 0] {1} (B) 
+	(E) -- node [inner sep=0] {1} (F);
+	\draw 
+	(C) -- node [inner sep=0] {1} (D)
+	(G) -- node [inner sep=0] {1} (H);
+	\draw (A) -- node {0} (C) -- node {0} (E) -- node {0} (G);
+	\draw [hide] (B) -- node {0} (D) -- node {0} (F) -- node {0} (H);
+	\draw [hide] (B) -- node {0} (C) -- node {0} (F) -- node {0} (G);
+    \end{scope}
+
+    % Node colors
+    \node [left=0.05 of A, anchor=east, align=right, node font=\large] {\hide{$\v\col(A)=\v0$}\\$\e\col_{\v{01}}(A)=\e0$\\};
+    \node [left=0.05 of C, anchor=east, align=right, node font=\large] {\hide{$\v\col(C)=\v1$}\\$\e\col_{\v{01}}(C)=\e0$\\};
+    \node [left=0.05 of E, anchor=east, align=right, node font=\large] {\hide{$\v\col(E)=\v0$}\\$\e\col_{\v{01}}(E)=\e0$\\};
+    \node [left=0.05 of G, anchor=east, align=right, node font=\large] {\hide{$\v\col(G)=\v1$}\\$\e\col_{\v{01}}(G)=\e0$\\};
+
+    \node [right=0.05 of B, anchor=west, align=right, node font=\large] {\hide{$\v\col(B)=\v2$}\\\\};
+    \node [right=0.05 of D, anchor=west, align=right, node font=\large] {\hide{$\v\col(D)=\v0$}\\$\e\col_{\v{01}}(D)=\e1$\\};
+    \node [right=0.05 of F, anchor=west, align=right, node font=\large] {\hide{$\v\col(F)=\v2$}\\\\};
+    \node [right=0.05 of H, anchor=west, align=right, node font=\large] {\hide{$\v\col(H)=\v0$}\\$\e\col_{\v{01}}(H)=\e1$\\};
+\end{tikzpicture}
+% }}}
+
+% {{{ Only col01
+\begin{tikzpicture}[line width=2]
+    \begin{scope}[every node/.append style={draw, circle, node font=\large, inner sep=3pt}]
+	\node (A) at (0,  0) {A};
+	\node (B) at (1.5,0) {B};
+	\node (C) at (0,  2) {C};
+	\node (D) at (1.5,2) {D};
+	\node (E) at (0,  4) {E};
+	\node (F) at (1.5,4) {F};
+	\node (G) at (0,  6) {G};
+	\node (H) at (1.5,6) {H};
+    \end{scope}
+
+    \begin{scope}[every node/.append style={fill=white, node font=\large\edgecolor, circle, inner sep=1pt}]
+	\draw (A) -- node [inner sep = 0] {1} (B) (C) -- node [inner sep=0] {1} (D) (E) -- node [inner sep=0] {1} (F) (G) -- node [inner sep=0] {1} (H);
+	\draw (A) -- node {0} (C) -- node {0} (E) -- node {0} (G);
+	\draw (B) -- node {0} (D) -- node {0} (F) -- node {0} (H);
+	\draw (B) -- node {0} (C) -- node {0} (F) -- node {0} (G);
+    \end{scope}
+
+    % Node colors
+    \node [left=0.05 of A, anchor=east, align=right, node font=\large] {$\v\col(A)=\v0$\\$\e\col_{\v{01}}(A)=\e0$\\};
+    \node [left=0.05 of C, anchor=east, align=right, node font=\large] {$\v\col(C)=\v1$\\$\e\col_{\v{01}}(C)=\e0$\\};
+    \node [left=0.05 of E, anchor=east, align=right, node font=\large] {$\v\col(E)=\v0$\\$\e\col_{\v{01}}(E)=\e0$\\};
+    \node [left=0.05 of G, anchor=east, align=right, node font=\large] {$\v\col(G)=\v1$\\$\e\col_{\v{01}}(G)=\e0$\\};
+
+    \node [right=0.05 of B, anchor=west, align=right, node font=\large] {$\v\col(B)=\v2$\\\\};
+    \node [right=0.05 of D, anchor=west, align=right, node font=\large] {$\v\col(D)=\v0$\\$\e\col_{\v{01}}(D)=\e1$\\};
+    \node [right=0.05 of F, anchor=west, align=right, node font=\large] {$\v\col(F)=\v2$\\\\};
+    \node [right=0.05 of H, anchor=west, align=right, node font=\large] {$\v\col(H)=\v0$\\$\e\col_{\v{01}}(H)=\e1$\\};
+\end{tikzpicture}
+% }}}
+
+% {{{ No col12 and col02 only on B
+\begin{tikzpicture}[line width=2]
+    \begin{scope}[every node/.append style={draw, circle, node font=\large, inner sep=3pt}]
+	\node (A) at (0,  0) {A};
+	\node (B) at (1.5,0) {B};
+	\node [hide] (C) at (0,  2) {C};
+	\node (D) at (1.5,2) {D};
+	\node (E) at (0,  4) {E};
+	\node (F) at (1.5,4) {F};
+	\node [hide] (G) at (0,  6) {G};
+	\node (H) at (1.5,6) {H};
+    \end{scope}
+
+    \begin{scope}[every node/.append style={fill=white, node font=\large\edgecolor, circle, inner sep=1pt}]
+	\draw (A) -- node [inner sep = 0] {1} (B) 
+	(E) -- node [inner sep=0] {1} (F) ;
+	\draw [hide] (C) -- node [inner sep=0] {1} (D) 
+	(G) -- node [inner sep=0] {1} (H);
+	\draw [hide] (A) -- node {0} (C) -- node {0} (E) -- node {0} (G);
+	\draw (B) -- node {0} (D) -- node {0} (F) -- node {0} (H);
+	\draw [hide] (B) -- node {0} (C) -- node {0} (F) -- node {0} (G);
+    \end{scope}
+
+    % Node colors
+    \node [left=0.05 of A, anchor=east, align=right, node font=\large] {\hide{$\v\col(A)=\v0$}\\\hide{$\e\col_{\v{01}}(A)=\e0$}\\};
+    \node [left=0.05 of C, anchor=east, align=right, node font=\large] {\hide{$\v\col(C)=\v1$}\\\hide{$\e\col_{\v{01}}(C)=\e0$}\\};
+    \node [left=0.05 of E, anchor=east, align=right, node font=\large] {\hide{$\v\col(E)=\v0$}\\\hide{$\e\col_{\v{01}}(E)=\e0$}\\};
+    \node [left=0.05 of G, anchor=east, align=right, node font=\large] {\hide{$\v\col(G)=\v1$}\\\hide{$\e\col_{\v{01}}(G)=\e0$}\\};
+
+    \node [right=0.05 of B, anchor=west, align=right, node font=\large] {\hide{$\v\col(B)=\v2$}\\$\e\col_{\v{02}}(B)=\e0$\\};
+    \node [right=0.05 of D, anchor=west, align=right, node font=\large] {\hide{$\v\col(D)=\v0$}\\\hide{$\e\col_{\v{01}}(D)=\e1$}\\};
+    \node [right=0.05 of F, anchor=west, align=right, node font=\large] {\hide{$\v\col(F)=\v2$}\\\\};
+    \node [right=0.05 of H, anchor=west, align=right, node font=\large] {\hide{$\v\col(H)=\v0$}\\\hide{$\e\col_{\v{01}}(H)=\e1$}\\};
+\end{tikzpicture}
+% }}}
+
+% {{{ Everything minus col12, 02 highlighted
+\begin{tikzpicture}[line width=2]
+    \begin{scope}[every node/.append style={draw, circle, node font=\large, inner sep=3pt}]
+	\node (A) at (0,  0) {A};
+	\node (B) at (1.5,0) {B};
+	\node [hide] (C) at (0,  2) {C};
+	\node (D) at (1.5,2) {D};
+	\node (E) at (0,  4) {E};
+	\node (F) at (1.5,4) {F};
+	\node [hide] (G) at (0,  6) {G};
+	\node (H) at (1.5,6) {H};
+    \end{scope}
+
+    \begin{scope}[every node/.append style={fill=white, node font=\large\edgecolor, circle, inner sep=1pt}]
+	\draw (A) -- node [inner sep = 0] {1} (B) 
+	(E) -- node [inner sep=0] {1} (F) ;
+	\draw [hide] (C) -- node [inner sep=0] {1} (D) 
+	(G) -- node [inner sep=0] {1} (H);
+	\draw [hide] (A) -- node {0} (C) -- node {0} (E) -- node {0} (G);
+	\draw (B) -- node {0} (D) -- node {0} (F) -- node {0} (H);
+	\draw [hide] (B) -- node {0} (C) -- node {0} (F) -- node {0} (G);
+    \end{scope}
+
+    % Node colors
+    \node [left=0.05 of A, anchor=east, align=right, node font=\large] {\hide{$\v\col(A)=\v0$}\\\hide{$\e\col_{\v{01}}(A)=\e0$}\\$\e\col_{\v{02}}(A)=\e1$};
+    \node [left=0.05 of C, anchor=east, align=right, node font=\large] {\hide{$\v\col(C)=\v1$}\\\hide{$\e\col_{\v{01}}(C)=\e0$}\\};
+    \node [left=0.05 of E, anchor=east, align=right, node font=\large] {\hide{$\v\col(E)=\v0$}\\\hide{$\e\col_{\v{01}}(E)=\e0$}\\$\e\col_{\v{02}}(E)=\e1$};
+    \node [left=0.05 of G, anchor=east, align=right, node font=\large] {\hide{$\v\col(G)=\v1$}\\\hide{$\e\col_{\v{01}}(G)=\e0$}\\};
+
+    \node [right=0.05 of B, anchor=west, align=right, node font=\large] {\hide{$\v\col(B)=\v2$}\\$\e\col_{\v{02}}(B)=\e0$\\};
+    \node [right=0.05 of D, anchor=west, align=right, node font=\large] {\hide{$\v\col(D)=\v0$}\\\hide{$\e\col_{\v{01}}(D)=\e1$}\\$\e\col_{\v{02}}(D)=\e0$};
+    \node [right=0.05 of F, anchor=west, align=right, node font=\large] {\hide{$\v\col(F)=\v2$}\\$\e\col_{\v{02}}(F)=\e0$\\};
+    \node [right=0.05 of H, anchor=west, align=right, node font=\large] {\hide{$\v\col(H)=\v0$}\\\hide{$\e\col_{\v{01}}(H)=\e1$}\\$\e\col_{\v{02}}(H)=\e0$};
+\end{tikzpicture}
+% }}}
+
+% {{{ Everything minus col12
+\begin{tikzpicture}[line width=2]
+    \begin{scope}[every node/.append style={draw, circle, node font=\large, inner sep=3pt}]
+	\node (A) at (0,  0) {A};
+	\node (B) at (1.5,0) {B};
+	\node (C) at (0,  2) {C};
+	\node (D) at (1.5,2) {D};
+	\node (E) at (0,  4) {E};
+	\node (F) at (1.5,4) {F};
+	\node (G) at (0,  6) {G};
+	\node (H) at (1.5,6) {H};
+    \end{scope}
+
+    \begin{scope}[every node/.append style={fill=white, node font=\large\edgecolor, circle, inner sep=1pt}]
+	\draw (A) -- node [inner sep = 0] {1} (B) (C) -- node [inner sep=0] {1} (D) (E) -- node [inner sep=0] {1} (F) (G) -- node [inner sep=0] {1} (H);
+	\draw (A) -- node {0} (C) -- node {0} (E) -- node {0} (G);
+	\draw (B) -- node {0} (D) -- node {0} (F) -- node {0} (H);
+	\draw (B) -- node {0} (C) -- node {0} (F) -- node {0} (G);
+    \end{scope}
+
+    % Node colors
+    \node [left=0.05 of A, anchor=east, align=right, node font=\large] {$\v\col(A)=\v0$\\$\e\col_{\v{01}}(A)=\e0$\\$\e\col_{\v{02}}(A)=\e1$};
+    \node [left=0.05 of C, anchor=east, align=right, node font=\large] {$\v\col(C)=\v1$\\$\e\col_{\v{01}}(C)=\e0$\\};
+    \node [left=0.05 of E, anchor=east, align=right, node font=\large] {$\v\col(E)=\v0$\\$\e\col_{\v{01}}(E)=\e0$\\$\e\col_{\v{02}}(E)=\e1$};
+    \node [left=0.05 of G, anchor=east, align=right, node font=\large] {$\v\col(G)=\v1$\\$\e\col_{\v{01}}(G)=\e0$\\};
+
+    \node [right=0.05 of B, anchor=west, align=right, node font=\large] {$\v\col(B)=\v2$\\$\e\col_{\v{02}}(B)=\e0$\\};
+    \node [right=0.05 of D, anchor=west, align=right, node font=\large] {$\v\col(D)=\v0$\\$\e\col_{\v{01}}(D)=\e1$\\$\e\col_{\v{02}}(D)=\e0$};
+    \node [right=0.05 of F, anchor=west, align=right, node font=\large] {$\v\col(F)=\v2$\\$\e\col_{\v{02}}(F)=\e0$\\};
+    \node [right=0.05 of H, anchor=west, align=right, node font=\large] {$\v\col(H)=\v0$\\$\e\col_{\v{01}}(H)=\e1$\\$\e\col_{\v{02}}(H)=\e0$};
+\end{tikzpicture}
+% }}}
+
+% {{{ Picture of everything, 12 highlighted
+\begin{tikzpicture}[line width=2]
+    \begin{scope}[every node/.append style={draw, circle, node font=\large, inner sep=3pt}]
+	\node[hide] (A) at (0,  0) {A};
+	\node (B) at (1.5,0) {B};
+	\node (C) at (0,  2) {C};
+	\node[hide] (D) at (1.5,2) {D};
+	\node[hide] (E) at (0,  4) {E};
+	\node (F) at (1.5,4) {F};
+	\node (G) at (0,  6) {G};
+	\node[hide] (H) at (1.5,6) {H};
+    \end{scope}
+
+    \begin{scope}[every node/.append style={fill=white, node font=\large\edgecolor, circle, inner sep=1pt}]
+	\draw [hide] (A) -- node [inner sep = 0] {1} (B) (C) -- node [inner sep=0] {1} (D) (E) -- node [inner sep=0] {1} (F) (G) -- node [inner sep=0] {1} (H);
+	\draw [hide] (A) -- node {0} (C) -- node {0} (E) -- node {0} (G);
+	\draw [hide] (B) -- node {0} (D) -- node {0} (F) -- node {0} (H);
+	\draw (B) -- node {0} (C) -- node {0} (F) -- node {0} (G);
+    \end{scope}
+
+    % Node colors
+    \node [left=0.05 of A, anchor=east, align=right, node font=\large] {\hide{$\v\col(A)=\v0$}\\\hide{$\e\col_{\v{01}}(A)=\e0$}\\\hide{$\e\col_{\v{02}}(A)=\e1$}};
+    \node [left=0.05 of C, anchor=east, align=right, node font=\large] {\hide{$\v\col(C)=\v1$}\\\hide{$\e\col_{\v{01}}(C)=\e0$}\\$\e\col_{\v{12}}(C)=\e0$};
+    \node [left=0.05 of E, anchor=east, align=right, node font=\large] {\hide{$\v\col(E)=\v0$}\\\hide{$\e\col_{\v{01}}(E)=\e0$}\\\hide{$\e\col_{\v{02}}(E)=\e1$}};
+    \node [left=0.05 of G, anchor=east, align=right, node font=\large] {\hide{$\v\col(G)=\v1$}\\\hide{$\e\col_{\v{01}}(G)=\e0$}\\$\e\col_{\v{12}}(G)=\e0$};
+
+    \node [right=0.05 of B, anchor=west, align=right, node font=\large] {\hide{$\v\col(B)=\v2$}\\\hide{$\e\col_{\v{02}}(B)=\e0$}\\$\e\col_{\v{12}}(B)=\e0$};
+    \node [right=0.05 of D, anchor=west, align=right, node font=\large] {\hide{$\v\col(D)=\v0$}\\\hide{$\e\col_{\v{01}}(D)=\e1$}\\\hide{$\e\col_{\v{02}}(D)=\e0$}};
+    \node [right=0.05 of F, anchor=west, align=right, node font=\large] {\hide{$\v\col(F)=\v2$}\\\hide{$\e\col_{\v{02}}(F)=\e0$}\\$\e\col_{\v{12}}(F)=\e0$};
+    \node [right=0.05 of H, anchor=west, align=right, node font=\large] {\hide{$\v\col(H)=\v0$}\\\hide{$\e\col_{\v{01}}(H)=\e1$}\\\hide{$\e\col_{\v{02}}(H)=\e0$}};
+\end{tikzpicture}
+% }}}
+
+% {{{ Picture of everything
+\begin{tikzpicture}[line width=2]
+    \begin{scope}[every node/.append style={draw, circle, node font=\large, inner sep=3pt}]
+	\node (A) at (0,  0) {A};
+	\node (B) at (1.5,0) {B};
+	\node (C) at (0,  2) {C};
+	\node (D) at (1.5,2) {D};
+	\node (E) at (0,  4) {E};
+	\node (F) at (1.5,4) {F};
+	\node (G) at (0,  6) {G};
+	\node (H) at (1.5,6) {H};
+    \end{scope}
+
+    \begin{scope}[every node/.append style={fill=white, node font=\large\edgecolor, circle, inner sep=1pt}]
+	\draw (A) -- node [inner sep = 0] {1} (B) (C) -- node [inner sep=0] {1} (D) (E) -- node [inner sep=0] {1} (F) (G) -- node [inner sep=0] {1} (H);
+	\draw (A) -- node {0} (C) -- node {0} (E) -- node {0} (G);
+	\draw (B) -- node {0} (D) -- node {0} (F) -- node {0} (H);
+	\draw (B) -- node {0} (C) -- node {0} (F) -- node {0} (G);
+    \end{scope}
+
+    % Node colors
+    \node [left=0.05 of A, anchor=east, align=right, node font=\large] {$\v\col(A)=\v0$\\$\e\col_{\v{01}}(A)=\e0$\\$\e\col_{\v{02}}(A)=\e1$};
     \node [left=0.05 of C, anchor=east, align=right, node font=\large] {$\v\col(C)=\v1$\\$\e\col_{\v{01}}(C)=\e0$\\$\e\col_{\v{12}}(C)=\e0$};
-    \node [left=0.05 of E, anchor=east, align=right, node font=\large] {$\v\col(E)=\v0$\\$\e\col_{\v{01}}(E)=\e0$\\$\e\col_{\v{02}}(E)=\e0$};
+    \node [left=0.05 of E, anchor=east, align=right, node font=\large] {$\v\col(E)=\v0$\\$\e\col_{\v{01}}(E)=\e0$\\$\e\col_{\v{02}}(E)=\e1$};
     \node [left=0.05 of G, anchor=east, align=right, node font=\large] {$\v\col(G)=\v1$\\$\e\col_{\v{01}}(G)=\e0$\\$\e\col_{\v{12}}(G)=\e0$};
 
-    \node [right=0.05 of B, anchor=west, align=right, node font=\large] {$\v\col(B)=\v2$\\$\e\col_{\v{02}}(B)=\e1$\\$\e\col_{\v{12}}(B)=\e1$};
-    \node [right=0.05 of D, anchor=west, align=right, node font=\large] {$\v\col(D)=\v0$\\$\e\col_{\v{01}}(D)=\e1$\\$\e\col_{\v{02}}(D)=\e1$};
-    \node [right=0.05 of F, anchor=west, align=right, node font=\large] {$\v\col(F)=\v2$\\$\e\col_{\v{02}}(F)=\e1$\\$\e\col_{\v{12}}(F)=\e1$};
-    \node [right=0.05 of H, anchor=west, align=right, node font=\large] {$\v\col(H)=\v0$\\$\e\col_{\v{01}}(H)=\e1$\\$\e\col_{\v{02}}(H)=\e1$};
+    \node [right=0.05 of B, anchor=west, align=right, node font=\large] {$\v\col(B)=\v2$\\$\e\col_{\v{02}}(B)=\e0$\\$\e\col_{\v{12}}(B)=\e0$};
+    \node [right=0.05 of D, anchor=west, align=right, node font=\large] {$\v\col(D)=\v0$\\$\e\col_{\v{01}}(D)=\e1$\\$\e\col_{\v{02}}(D)=\e0$};
+    \node [right=0.05 of F, anchor=west, align=right, node font=\large] {$\v\col(F)=\v2$\\$\e\col_{\v{02}}(F)=\e0$\\$\e\col_{\v{12}}(F)=\e0$};
+    \node [right=0.05 of H, anchor=west, align=right, node font=\large] {$\v\col(H)=\v0$\\$\e\col_{\v{01}}(H)=\e1$\\$\e\col_{\v{02}}(H)=\e0$};
 \end{tikzpicture}
+% }}}
+
+% {{{ Picture of everything, tuple-colors
+\begin{tikzpicture}[line width=2]
+    \begin{scope}[every node/.append style={draw, circle, node font=\large, inner sep=3pt}]
+	\node (A) at (0,  0) {A};
+	\node (B) at (1.5,0) {B};
+	\node (C) at (0,  2) {C};
+	\node (D) at (1.5,2) {D};
+	\node (E) at (0,  4) {E};
+	\node (F) at (1.5,4) {F};
+	\node (G) at (0,  6) {G};
+	\node (H) at (1.5,6) {H};
+    \end{scope}
+
+    \begin{scope}[every node/.append style={fill=white, node font=\large\edgecolor, circle, inner sep=1pt}]
+	\draw (A) -- node [inner sep = 0] {1} (B) (C) -- node [inner sep=0] {1} (D) (E) -- node [inner sep=0] {1} (F) (G) -- node [inner sep=0] {1} (H);
+	\draw (A) -- node {0} (C) -- node {0} (E) -- node {0} (G);
+	\draw (B) -- node {0} (D) -- node {0} (F) -- node {0} (H);
+	\draw (B) -- node {0} (C) -- node {0} (F) -- node {0} (G);
+    \end{scope}
+
+    \newcommand\colprime[3]{$(\v#1,\e#2,\e#3)$}
+
+    % Node colors
+    \node [left=0.05 of A, anchor=east, align=center, node font=\large] {$\col'(A) = $\\\colprime001};
+    \node [left=0.05 of C, anchor=east, align=center, node font=\large] {$\col'(C) = $\\\colprime100};
+    \node [left=0.05 of E, anchor=east, align=center, node font=\large] {$\col'(E) = $\\\colprime001};
+    \node [left=0.05 of G, anchor=east, align=center, node font=\large] {$\col'(G) = $\\\colprime100};
+
+    \node [right=0.05 of B, anchor=west, align=center, node font=\large] {$\col'(B) = $\\\colprime200};
+    \node [right=0.05 of D, anchor=west, align=center, node font=\large] {$\col'(D) = $\\\colprime010};
+    \node [right=0.05 of F, anchor=west, align=center, node font=\large] {$\col'(F) = $\\\colprime200};
+    \node [right=0.05 of H, anchor=west, align=center, node font=\large] {$\col'(H) = $\\\colprime010};
+\end{tikzpicture}
+% }}}
 \end{document}
+
