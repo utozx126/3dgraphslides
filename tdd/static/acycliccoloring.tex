@@ -1,0 +1,61 @@
+\documentclass[tikz]{standalone}
+\usepackage{xcolor}
+
+\tikzset{
+    v1/.code = {
+	\fill[blue] 
+	(0,0) coordinate (A) circle [radius = 0.3]
+	(2,2) coordinate (B) circle [radius = 0.3]
+	(4,4) coordinate (C) circle [radius = 0.3];
+    },
+    v2/.code = {
+	\fill[green] 
+	(2,0) coordinate (D) circle [radius = 0.3]
+	(4,2) coordinate (E) circle [radius = 0.3]
+	(0,4) coordinate (F) circle [radius = 0.3];
+    },
+    v3/.code = {
+	\fill[red] 
+	(4,0) coordinate (G) circle [radius = 0.3]
+	(0,2) coordinate (H) circle [radius = 0.3]
+	(2,4) coordinate (I) circle [radius = 0.3];
+    },
+    e12/.code={
+	\draw [line width=3] (A) --(D) -- (B) -- (E) -- (C) (B) -- (F);
+    },
+    e23/.code={
+	\draw [line width=3] (D) -- (G) -- (E) -- (I) -- (F) -- (H) -- (D);
+    },
+    e13/.code={
+	\draw [line width=3] (A) -- (H) -- (B) -- (I) -- (C) (B) -- (G);
+    },
+    fix/.code={
+	\fill[violet] 
+	(G) circle [radius = 0.3];
+    },
+    all/.code={
+	\fill[blue] 
+	(0,0) coordinate (A) circle [radius = 0.1]
+	(2,2) coordinate (B) circle [radius = 0.1]
+	(4,4) coordinate (C) circle [radius = 0.1];
+	\fill[green] 
+	(2,0) coordinate (D) circle [radius = 0.1]
+	(4,2) coordinate (E) circle [radius = 0.1]
+	(0,4) coordinate (F) circle [radius = 0.1];
+	\fill[purple] 
+	(4,0) coordinate (G) circle [radius = 0.1]
+	(0,2) coordinate (H) circle [radius = 0.1]
+	(2,4) coordinate (I) circle [radius = 0.1];
+	\draw [line width=1, gray] (A) --(D) -- (B) -- (E) -- (C) (B) -- (F);
+	\draw [line width=1, gray] (D) -- (G) -- (E) -- (I) -- (F) -- (H) -- (D);
+	\draw [line width=1, gray] (A) -- (H) -- (B) -- (I) -- (C) (B) -- (G);
+    },
+}
+
+\begin{document}
+\tikz[all,e12,e23,e13,v1,v2,v3,];
+\tikz[all,e13,v1,v3,];
+\tikz[all,e12,v1,v2,];
+\tikz[all,e23,v2,v3,];
+\tikz[all,e12,e23,e13,v1,v2,v3,fix];
+\end{document}

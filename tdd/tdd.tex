@@ -81,6 +81,8 @@ ETH Zürich}
   \addtocounter{footnote}{-1}%
   \endgroup
 }
+
+
 \begin{document}
 \begin{frame}
     \titlepage
@@ -262,17 +264,137 @@ ETH Zürich}
 
 \subsection{Track Layouts to 3D drawings}
 
+\begin{frame}{Track Layouts to 3D drawings}
+    \begin{theorem}
+	Every graph on $n$ vertices with track number $t$ has a 3-dimensional straight-line drawing on the integer grid with $\mathcal O(t^3n)$ volume.
+    \end{theorem}
+\end{frame}
+
 \begin{frame}{Track Layouts}
-    \still{static/cube}
-    \still{static/cube}
-    \still{static/cube}
+    \foreach \i in {1, ..., 4} {
+	\only<+>{
+	    \begin{center}
+		\still[\i]{static/tracklayout}
+	    \end{center}
+	}
+    }
+    \only<+->{
     \begin{definition}[Track Layout]
-	A $t$-track layout of a graph $G$ is a partition into $t$ 
+	A \textit{$t$-Track Layout} of some graph $G$ consists of
+	\begin{itemize}
+	    \item<+-> a partition of the vertices of $G$ into independent sets $\left\{ T_i \right\}_{i\in\left\{ 0, 1, \ldots, t-1 \right\}}$, called tracks, and
+	    \item<+-> an ordering $<_i$ of the vertices of each track $T_i$.
+	\end{itemize}
+	\pause
+	It does not contain an X-Crossing. \pause An \textit{X-Crossing} consists of two edges $vw$ and $xy$ between two tracks $T_i \ni v,x$ and $T_j \ni w, y$ such that $v <_i x$ and $w >_j y$
     \end{definition}
+    \pause
+    \begin{definition}[Track Number]
+	The \textit{Track Number} $\operatorname{tn}(G)$ is the smallest $t$ such that $G$ has a $t$-track layout
+    \end{definition}
+}
+\end{frame}
+
+\begin{frame}{The Modular Moment Curve with tracks}
+    % TODO: Incomplete, blackboard?
+    \footcite{Theorem and proof from Cohen, Eades, Tao Lin and Ruskey: \textit{Three-Dimensional Graph Drawing}}
+    \uncover<+->{
+	\begin{theorem}
+	    Every graph on $n$ vertices with track number $t$ has a 3-dimensional straight-line drawing on the integer grid with $\mathcal O(t^3n)$ volume.
+	\end{theorem}
+    }
+    \begin{proof}<+->
+	\begin{itemize}
+	    \item<.-> Draw the $j$-th vertex of the track $T_j$ at $(i, i^2\mod p, i^3\mod p + jp)$ with $n \le p < 2n$, $p$ prime
+		\only<+>{
+		    \begin{center}
+			\animategraphics[autoplay, loop]{20}{anim/trackmomentcurve}{}{}
+		    \end{center}
+		}
+		\only<.>{
+		    \begin{center}
+			\animategraphics[autoplay, loop]{20}{anim/trackmomentcurve}{}{}
+		    \end{center}
+		}
+	    \item<+-> No four such vertices are coplanar
+		\only<+-+(+3)>{
+		    \begin{itemize}
+			\item The vertices $v_0, v_1, v_2, v_3$ are coplanar iff 
+			    \begin{equation*}
+				\det\left(
+				\begin{matrix}
+				    1&v_0&v_0^2\alert<.>{\mod p}&v_0^3\alert<.>{\mod p}\\
+				    1&v_1&v_1^2\alert<.>{\mod p}&v_1^3\alert<.>{\mod p}\\
+				    1&v_2&v_2^2\alert<.>{\mod p}&v_2^3\alert<.>{\mod p}\\
+				    1&v_3&v_3^2\alert<.>{\mod p}&v_3^3\alert<.>{\mod p}\\
+				\end{matrix}
+			    \right) = 0
+			    \end{equation*}
+			\item<+-+(+2)> {
+				This determinant is $\alert<.>{\equiv} \prod_{0 \le i < j < 4} \alt<+>{\underbrace{(v_j-v_i)}_{\not\equiv0}}{(v_j - v_i)} \uncover<+>{\alert<.>{\not\equiv} 0} \alert<.(-2)>{\pmod p}$
+			}
+		    \end{itemize}
+		}
+	    \item<+-> No four vertices are coplanar $\implies$ No two edges cross
+	\end{itemize}
+    \end{proof}
+\end{frame}
+
+\section{Queues to Tracks}
+
+\begin{frame}
+    \begin{theorem}
+	Every graph on $n$ vertices with queue number $q$ and acyclic chromatic number $c$ has track number $c(2q)^{c-1}$
+    \end{theorem}
+\end{frame}
+
+\begin{frame}
+    \begin{definition}[Acyclic coloring]
+	An acyclic coloring is a proper coloring such that every bichromatic subgraph is a forest, or equivalently, such that every cyclie receives at least three colors. 
+    \end{definition}
+    \pause
+    \begin{definition}[Acyclic Chromatic Number]
+	The acyclic chromatic number $\chi_a(G)$ is the smallest number of colors across all acyclic colorings of $G$.
+    \end{definition}
+    \foreach\i in {1, ..., 5}{
+	\only<+>{
+	    \begin{center}
+		\still[\i]{static/acycliccoloring}
+	    \end{center}
+	}
+    }
+\end{frame}
+
+\begin{frame}
+    \begin{columns}
+	\begin{column}{0.4\textwidth}
+	    \begin{lemma}[Refinement Lemma]
+		Given a graph $G$ with
+		\begin{itemize}
+		    \item an acyclic $c$-coloring
+		    \item a (not necesserily proper) $k$-edge-coloring,
+		\end{itemize}
+		there is a proper $ck^{c-1}$-vertex-coloring of $G$ such that
+		\begin{itemize}
+		    \item every new vertex color class is contained in one old vertex color class, \rlap{and}
+		    \item the edges between any two vertex color classes are monochromatic. 
+		\end{itemize}
+	    \end{lemma}
+	\end{column}
+	\begin{column}{0.6\textwidth}%
+	    \vspace{-0.5cm}
+	    \foreach\i in {1, ..., 3}{%
+		\only<+>{%
+		    \begin{center}%
+			\still[\i]{static/refinementlemma}%
+		    \end{center}%
+		}%
+	    }%
+	\end{column}%
+    \end{columns}
 \end{frame}
 
 \begin{frame}{Make Titles Informative.}
-
     You can create overlays\dots
     \begin{itemize}
 	\item using the \texttt{pause} command:

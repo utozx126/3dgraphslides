@@ -1,7 +1,7 @@
 .PHONY: build 
 
-TEX_GENERATORS := $(wildcard **/tex.gen.py)
-TEX_GENERATED := $(GENERATORS:.gen.py=)
+TEX_GENERATORS := $(wildcard **/*.tex.gen.py)
+TEX_GENERATED := $(TEX_GENERATORS:.tex.gen.py=.tex)
 
 FIGURETEX := $(wildcard anim/*.tex) $(wildcard static/*.tex) $(TEX_GENERATED)
 FIGUREPDF := $(FIGURETEX:.tex=.pdf)
@@ -16,7 +16,9 @@ static/%: static/%.gen.py
 
 build: tdd.pdf
 
-preview: $(FIGUREPDF) tdd.tex
+preview: preview.pdf
+
+preview.pdf: $(FIGUREPDF) preview.tex
 	pdflatex --output-directory=build preview.tex
 	mv build/preview.pdf .
 
