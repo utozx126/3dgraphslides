@@ -8,7 +8,7 @@
 % \usecolortheme{dove}
 \useoutertheme{infolines}
 
-\setbeamercovered{transparent}
+% \setbeamercovered{transparent}
 % or whatever (possibly just delete it)
 
 
@@ -82,7 +82,8 @@ ETH Zürich}
   \endgroup
 }
 
-
+\newtheorem{task}{Task}
+\newtheorem{claim}{Claim}
 \begin{document}
 \begin{frame}
     \titlepage
@@ -392,6 +393,176 @@ ETH Zürich}
 	    }%
 	\end{column}%
     \end{columns}
+\end{frame}
+
+\begin{frame}
+    \begin{theorem}
+	Every graph on $n$ vertices with queue number $q$ and acyclic chromatic number $c$ has track number $c(2q)^{c-1}$
+    \end{theorem}
+    \begin{proof}
+	\begin{itemize}
+		\pause
+	    \item Let $\le_Q$ be the linear ordering from a $q$-queue-layout. 
+		\pause
+	    \item Use the $q$ queues for a $q$-edge-coloring.
+		\pause
+	    \item Apply the refinement lemma to an acyclic $c$-coloring and the above edge $q$-coloring.
+		\pause
+	    \item The tracks are the refined colors, ordered by $\le_Q$
+	\end{itemize}
+    \end{proof}
+	\pause
+	Do the ``tracks'' actually form a track layout? \pause 
+	\begin{itemize}
+	    \item NO!
+		\pause
+	    \item But we can fix them
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+    \begin{theorem}
+	Every graph on $n$ vertices with queue number $q$ and acyclic chromatic number $c$ has track number at most $c(2q)^{c-1}$
+    \end{theorem}
+    \begin{proof}
+	\begin{itemize}
+		\pause
+	    \item Let $\le_Q$ be the linear ordering from a $q$-queue-layout. 
+		\pause
+		    \only<-8> {%
+		    \item Use the $q$ queues for a $q$-edge-coloring.%
+		    }%
+		    \only<9-> {%
+			\alert<9>{%
+		    \item Partition the edges of each queue into forward and backward edges, then use the resulting $2q$ sets as a $2q$-edge-coloring.%
+		    }%
+		    }%
+		\pause
+	    \item Apply the refinement lemma to an acyclic $c$-coloring and the above edge \alert<9>{$2q$}-coloring.
+		\pause
+	    \item The tracks are the refined colors, ordered by $\le_Q$
+	\end{itemize}
+	\only<9->{
+	    Do the ``tracks'' actually form a track layout?
+	    \begin{itemize}
+		\item<10-> YES!
+	\end{itemize}
+	    }
+    \end{proof}
+    \pause
+    \only<-8>{
+	Do the ``tracks'' actually form a track layout? \pause 
+	\begin{itemize}
+	    \item NO!
+		\pause
+	    \item But we can fix them
+    \end{itemize}
+	    }
+\end{frame}
+
+\section{Acyclic chromatic number}
+\begin{frame}
+    \begin{theorem}
+	Outerplanar graphs have acyclic chromatic number at most three
+    \end{theorem}
+    \begin{proof}
+	Let $G$ be an outerplanar graph. WLoG assume $G$ is a triangulated polygon. Recursively color the graph as follows:
+	\begin{itemize}
+	    \item Choose $v$ with degree $2$ and neighbors $u$ and $w$.
+	    \item Color $G\setminus v$.
+	    \item Color $v$ using the color $u$ and $w$ don't use. 
+	    \item The addition of $v$ can't create a new bichromatic cycle: Otherwise, $u$ and $w$ would have the same color, but they are neighbors.
+	\end{itemize}
+    \end{proof}
+\end{frame}
+
+\begin{frame}
+    \begin{theorem}
+	Planar graphs have acyclic chromatic number at most nine.
+    \end{theorem}
+    \begin{proof}
+	Let $G$ be a planar graph. WLOG assume $G$ is connected. We will construct a $9$-coloring and show that it does not contain a bichromatic cycle (and that it is proper).
+	\begin{itemize}
+	    \item Choose some $v_0$.
+	    \item We define the \emph{circle} $C_i = \left\{v \in G | d(v, v_0)=i\right\}$. Similarly define $C_{<i}$ etc.
+	    \item Use a different set of three colors for the circles $C_{3k}$, $C_{3k+1}$, $C_{3k+2}$
+	    \item Observe: Edges of $G$ are within a single circle or between two adjacent circles. Any bichromatic cycle can use (up to) two adjacent circles. 
+	    \item We will now color each circle $S_i$ such that it cannot be the innermost shell of a bichromatic cycle.
+	\end{itemize}
+	\phantom\qedhere
+    \end{proof}
+\end{frame}
+
+\begin{frame}{Coloring the circles}
+    \begin{task}
+	Color the circle $C_i$ such that it cannot be the innermost shell of a bichromatic cycle.
+    \end{task}
+    \begin{itemize}
+	\item Start with the induced subgraph $G[C_i]$. 
+	\item For each vertex $v \in C_{j+1}$, let $v_1, v_2, \dots, v_j$ be the cyclic order of the vertices in $C_i$ adjacent to $v$. Add edges $v_1v_2, v_2v_3, \dots, v_jv_1$ if they don't exist. 
+    \end{itemize}
+    We can see the resulting graph $C_i^*$ is outerplanar if we:
+    \begin{itemize}
+	\item Notice that $G[C_{<i}]$ is connected and each vertex of $C_i$ has an edge into $C_{<i}$ (in $G$)
+	\item Follow that the vertices of $C_i$ belong to a common face in $G[C_{\ge i}]$
+	\item Draw the edges added to form $C_i^*$ by closely following the edges from the vertex $v \in C_{i+1}$ of the current step.
+    \end{itemize}
+    So, we can color $C_i^*$ acyclically with three colors.
+\end{frame}
+
+\begin{frame}
+    \begin{claim}
+	$C_i$, colored as described above, cannot be the innermost circle of a bichromatic cycle of $G$
+    \end{claim}
+    \begin{proof}
+	Assume for a contradiction that such a cycle exists. This cycle consists of alternating vertices of $C_i$ and $C_{i+1}$:
+
+	Let $v_0v_1v_2$ be consecutive vertices on the cycle with $v_1\in C_{i+1}$. We distinguish by the degree of $v_1$
+	\begin{itemize}
+	    \item Degree $1$: Impossible, because $v_0, v_2$ are both neighbors of $v_1$
+	    \item Degree $2$ or $3$: Impossible, because $v_0, v_2$ are neighbors in $C_{i}^*$
+	    \item Degree $4$ or more: Take the vertices to the left and right of $v_0$ in cyclic ordering around $v_1$. They, together with $v_1$ and $C_{<i}$, cut off $v_0$ (or $v_1$) from the other end of the cycle. 
+	\end{itemize}
+    \end{proof}
+\end{frame}
+
+\begin{frame}{Concluding the proof}
+    \begin{theorem}
+	Planar graphs have acyclic chromatic number at most nine.
+    \end{theorem}
+    \begin{proof}[Proof (cont.)]
+	We have shown that, using our coloring, no bichromatic cycle exists. It is easy to see that the coloring is proper. Therefore, we have found an acyclic $9$-coloring.
+    \end{proof}
+\end{frame}
+
+\begin{frame}{Better bounds}
+    \begin{theorem}
+	Planar graphs have acyclic chromatic number at most five.
+    \end{theorem}
+    \begin{proof}
+	Same as our proof for outerplanar graphs (i.e. reducing any graph to another graph with less vertices), except with 450 cases.{\tiny Details left as exercise.}
+    \end{proof}
+    \begin{theorem}
+	Some planar graphs have acyclic chromatic number five.
+    \end{theorem}
+\end{frame}
+
+\begin{frame}{We're done!}
+    \begin{table}
+	\centering
+	\begin{tabular}{llll}
+&Queue Number&Acyclic Chromatic Number&Track Number&3D Drawing Dimensions\\
+Proven now      \\
+Proven anytime  \\
+Best lower bound\\
+	    Queue Number & 42 \\
+	    Acyclic Chromatic Number & 9\\
+	    Track Number & $8 \cdot 10^{13}$\\
+	    3D Drawing Volume & $16 \cdot 10^{13} \times 16\cdot 10^{13} \times n$\\
+	\end{tabular}
+	\caption{<+Caption text+>}
+	\label{tab:<+label+>}
+    \end{table}<++>
 \end{frame}
 
 \begin{frame}{Make Titles Informative.}
