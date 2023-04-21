@@ -5,7 +5,7 @@
 \foreach \rot in {0, 1, ..., 359} {
     \tdplotsetrotatedcoords{0}{0}{\rot}
     \begin{tikzpicture}[scale=0.7, tdplot_rotated_coords,line join=round]
-    \useasboundingbox (-6cm, -6cm) -- (6cm, 2cm);
+    \useasboundingbox (-6cm, -5cm) -- (6cm, 5cm);
     \coordinate (tr) at (-2, -2, -2);
     \begin{scope}[shift=(tr)]
     \draw[->] (0,0,0) -- (4, 0, 0);

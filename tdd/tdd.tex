@@ -1,7 +1,8 @@
 \documentclass[t]{beamer}
-\usepackage{tikz}
 \usepackage{pdfpages}
 \usepackage{animate}
+\usepackage{mathtools}
+\usepackage{tikz}
 
 \usetheme{Montpellier}
 % or ...
@@ -23,7 +24,7 @@
 % does not look nice, try deleting the line with the fontenc.
 
 
-\title[3D straigt-line drawings of planar graphs]{Three-dimensional straight-line drawings of planar graphs} % (optional, use only with long paper titles)
+\title[3D straight-line drawings of planar graphs]{Three-dimensional straight-line drawings of planar graphs} % (optional, use only with long paper titles)
 
 % \subtitle
 % {Presentation Subtitle} % (optional)
@@ -32,8 +33,7 @@
 {Tobias Feigenwinter}
 
 \institute
-{
-ETH Zürich}
+{ETH Zürich}
 % - Use the \inst command only if there are several affiliations.
 % - Keep it simple, no one is interested in your street address.
 
@@ -57,19 +57,6 @@ ETH Zürich}
 
 % Delete this, if you do not want the table of contents to pop up at
 % the beginning of each subsection:
-\AtBeginSubsection[]
-{
-    \begin{frame}<beamer>{Outline}
-	\tableofcontents[currentsection,currentsubsection]
-    \end{frame}
-}
-
-\AtBeginSection[]
-{
-    \begin{frame}<beamer>{Outline}
-	\tableofcontents[currentsection]
-    \end{frame}
-}
 
 % If you wish to uncover everything in a step-wise fashion, uncomment
 % the following command: 
@@ -89,15 +76,11 @@ ETH Zürich}
 }
 
 \newtheorem{task}{Task}
+\newtheorem{question}{Question}
 \newtheorem{claim}{Claim}
 \begin{document}
 \begin{frame}
     \titlepage
-\end{frame}
-
-\begin{frame}{Outline}
-    \tableofcontents[pausesections]
- % You might wish to add the option [pausesections]
 \end{frame}
 
 \section{Motivation for 3D drawings}
@@ -142,7 +125,7 @@ ETH Zürich}
 \begin{frame}{Main result}
     \footcite{Theorem from: Dujmović, Joret, Micek, Morin, Ueckerdt and Wood (2020): \textit{Planar Graphs Have Bounded Queue Number}}
     \begin{theorem}
-	\uncover<+->{Every planar graph with $n$ vertices has a 3-dimensional straight-line drawing on the integer grid}
+	\uncover<+->{Every planar graph with $n$ vertices has a 3-dimensional crossing-free straight-line drawing on the integer grid}
 	\uncover<+->{with $\mathcal O(n)$ Volume.}
     \end{theorem}
     \begin{center}
@@ -153,62 +136,83 @@ ETH Zürich}
 \begin{frame}{Why is this interesting?}
 \end{frame}
 
-\section{Results for general graphs}
-
 \begin{frame}{The Moment Curve}
-    \footcite{Theorem and proof from Cohen, Eades, Tao Lin and Ruskey: \textit{Three-Dimensional Graph Drawing}}
+    \vspace{-0.5cm}
     \begin{columns}
-	\begin{column}{0.4\textwidth}
-	    \begin{theorem}
-		Every graph with $n$ vertices has a 3-dimensional straight-line drawing 
-		on the integer grid
-		with $\mathcal O(n^6)$ Volume.
-	    \end{theorem}
+	\begin{column}{0.5\textwidth}
+		\begin{itemize}
+		    \item<+-> Place $i$-th vertex at $(i, i^2, i^3)$
+		    \item<+-> Four vertices are coplanar iff this matrix has determinant zero:
+			\begin{equation*}
+			    M = \begin{pmatrix}
+				\uncover<+->{1}&i_0&i_0^2&i_0^3\\
+				\uncover<.->{1}&i_1&i_1^2&i_1^3\\
+				\uncover<.->{1}&i_2&i_2^2&i_2^3\\
+				\uncover<.->{1}&i_3&i_3^2&i_3^3\\
+			    \end{pmatrix}
+			\end{equation*}
+		    \item<+-> This is a Vandermonde Matrix \rlap{with}
+			\[\det(M) = \prod_{0 \le k < l < 4} \alt<+->{\underbrace{(v_l - v_k)}_{\neq 0}}{(v_l-v_k)} \uncover<+->{\neq 0}\]
+		    \item<+-> No four vertices coplanar \linebreak $\implies$ no two edges cross
+		\end{itemize}
 	\end{column}
-	    \begin{column}{0.6\textwidth}
-	\only<2>{
+	    \begin{column}{0.5\textwidth}
 		\begin{center}
-		    \animategraphics[autoplay, loop]{2}{anim/momentcurve}{}{}
+		    \animategraphics[autoplay, loop]{20}{anim/momentcurve}{}{}
 		\end{center}
-	}
 	    \end{column}
     \end{columns}
 \end{frame}
 
 \begin{frame}{The Modular Moment Curve}
-    \footcite{Theorem and proof from Cohen, Eades, Tao Lin and Ruskey: \textit{Three-Dimensional Graph Drawing}}
+    \vspace{-0.5cm}
     \begin{columns}
-	\begin{column}{0.4\textwidth}
-		\begin{theorem}
-		    Every graph with $n$ vertices has a 3-dimensional straight-line drawing 
-		    on the integer grid
-		    with $\mathcal O(n^{\alert<.>{3}})$ Volume.
-		\end{theorem}
+	\begin{column}{0.5\textwidth}
+		\begin{itemize}
+		    \item <+-> Let $p$ prime, $n\le p<2n$
+		    \item
+			Place $i$-th vertex at \rlap{$(i, i^2 \uncover<+->{\alert{\mod p}}, i^3 \uncover<.->{\alert{\mod p}})$} \\
+		    \item Four vertices are coplanar iff this matrix has determinant zero:
+			\begin{equation*}
+			    M = \begin{pmatrix}
+				{1}&i_0&i_0^2\uncover<+->{\alert{\mod p}}&i_0^3\uncover<.->{\alert{\mod p}}\\
+				{1}&i_1&i_1^2\uncover<.->{\alert{\mod p}}&i_1^3\uncover<.->{\alert{\mod p}}\\
+				{1}&i_2&i_2^2\uncover<.->{\alert{\mod p}}&i_2^3\uncover<.->{\alert{\mod p}}\\
+				{1}&i_3&i_3^2\uncover<.->{\alert{\mod p}}&i_3^3\uncover<.->{\alert{\mod p}}\\
+			    \end{pmatrix}
+			\end{equation*}
+		    \item 
+			\(\det(M) \alt<+->{\alert{\equiv}}{=} \prod_{0 \le k < l < 4} \underbrace{(v_l - v_k)}_{\alt<+->{\alert{\not\equiv}}{\neq}0} \alt<+->{\alert{\not\equiv}}{\neq}\mathrlap{0 \uncover<.(-2)->{\alert{\pmod p}}}\)
+		    \item No four vertices coplanar \linebreak $\implies$ no two edges cross
+		\end{itemize}
 	\end{column}
-	\pause
-	\begin{column}{0.6\textwidth}
-	\only<2>{
-	    \begin{center}
-		\animategraphics[autoplay, loop]{20}{anim/modularmomentcurve}{}{}
-	    \end{center}
-	}
-	\only<3>{
-	    \begin{center}
-		\animategraphics[autoplay, loop]{20}{anim/modularmomentcompletegraph}{}{}
-	    \end{center}
-	}
-	\end{column}
+	    \begin{column}{0.5\textwidth}
+		\begin{center}
+		    \only<-6>{
+		    \animategraphics[autoplay, loop]{20}{anim/modularmomentcurve}{}{}
+		}\only<7->{
+		    \animategraphics[autoplay, loop]{20}{anim/modularmomentcompletegraph}{}{}
+		}
+		\end{center}
+	    \end{column}
     \end{columns}
 \end{frame}
 
-\begin{frame}{$\mathcal O(n^3)$ is tight for complete graphs}
-    \footcite{Theorem and proof from Cohen, Eades, Tao Lin and Ruskey: \textit{Three-Dimensional Graph Drawing}}
+\begin{frame}{Upper bound for general graphs}
+    \begin{theorem}
+	Every graph on $n$ vertices has a $\mathcal O(n^3)$ 3D crossing-free straight-line drawing.
+    \end{theorem}
+\end{frame}
+
+\begin{frame}{Can we do better?}
     \begin{columns}
 	\begin{column}{0.4\textwidth}
+	    \pause We try drawing a complete graph
 	    \begin{itemize}
+		    \pause
 		\item Cut grid into planes \pause
-		\item At most four vertices per plane (since $K_5$ doesn't fit)\pause
-		\item At least $\lceil\frac{n}{4}\rceil$ layers in each dimension\pause
+		\item At most four vertices per plane: $K_5$ doesn't fit\pause
+		\item At least $\lceil\frac{n}{4}\rceil$ planes in each dimension\pause
 		\item At least $\lceil\frac{n}{4}\rceil^{3} \in \Omega(n^3)$ Volume
 	    \end{itemize}
 	\end{column}
@@ -224,15 +228,20 @@ ETH Zürich}
 
 \section{Proof of the main result}
 
-\subsection{Track Layouts to 3D drawings}
-
-\begin{frame}{Track Layouts to 3D drawings}
-    \begin{theorem}
-	Every graph on $n$ vertices with track number $t$ has a 3-dimensional straight-line drawing on the integer grid with $\mathcal O(t^3n)$ volume.
-    \end{theorem}
+\begin{frame}{Outline of the proof}
+    \foreach \i in {1, ..., 3} {
+	\only<+>{
+	    \begin{center}
+		\still[\i]{static/outline}
+	    \end{center}
+	}
+    }
 \end{frame}
 
+\subsection{Track Layouts to 3D drawings}
+
 \begin{frame}{Track Layouts}
+    \footcite{Theorem from: Dujmović, Joret, Micek, Morin, Ueckerdt and Wood (2020): \textit{Planar Graphs Have Bounded Queue Number}}
     \foreach \i in {1, ..., 4} {
 	\only<+>{
 	    \begin{center}
@@ -240,73 +249,182 @@ ETH Zürich}
 	    \end{center}
 	}
     }
-    \only<+->{
-    \begin{definition}[Track Layout]
-	A \textit{$t$-Track Layout} of some graph $G$ consists of
-	\begin{itemize}
-	    \item<+-> a partition of the vertices of $G$ into independent sets $\left\{ T_i \right\}_{i\in\left\{ 0, 1, \ldots, t-1 \right\}}$, called tracks, and
-	    \item<+-> an ordering $<_i$ of the vertices of each track $T_i$.
-	\end{itemize}
-	\pause
-	It does not contain an X-Crossing. \pause An \textit{X-Crossing} consists of two edges $vw$ and $xy$ between two tracks $T_i \ni v,x$ and $T_j \ni w, y$ such that $v <_i x$ and $w >_j y$
-    \end{definition}
-    \pause
-    \begin{definition}[Track Number]
-	The \textit{Track Number} $\operatorname{tn}(G)$ is the smallest $t$ such that $G$ has a $t$-track layout
-    \end{definition}
-}
 \end{frame}
 
 \begin{frame}{The Modular Moment Curve with tracks}
-    % TODO: Incomplete, blackboard?
-    \footcite{Theorem and proof from Cohen, Eades, Tao Lin and Ruskey: \textit{Three-Dimensional Graph Drawing}}
+    \vspace{-0.5cm}
     \begin{columns}
-	\begin{column}{0.4\textwidth}
-	    \begin{theorem}
-		Every graph on $n$ vertices with track number $t$ has a 3-dimensional straight-line drawing on the integer grid with $\mathcal O(t^3n')$ volume, where $n'$ is the maximal number of vertices on any single track. 
-	    \end{theorem}
+	\begin{column}{0.5\textwidth}
+		\begin{itemize}
+		    \item <+-> Let $p$ prime, $n\le p<2n$
+		    \item
+			Place $j$-th vertex of $i$-th track at \rlap{$(i, i^2 \mod p, i^3 \mod p \alert{+jp})$} \\
+		    \item Four vertices are coplanar iff this matrix has determinant zero:
+			\begin{equation*}
+			    M = \begin{pmatrix}
+				{1}&i_0&i_0^2\mod p&i_0^3\mod p \alert{+jp}\\
+				{1}&i_1&i_1^2\mod p&i_1^3\mod p \alert{+jp}\\
+				{1}&i_2&i_2^2\mod p&i_2^3\mod p \alert{+jp}\\
+				{1}&i_3&i_3^2\mod p&i_3^3\mod p \alert{+jp}\\
+			    \end{pmatrix}
+			\end{equation*}
+		    \item 
+			\(\det(M) \equiv \prod_{0 \le k < l < 4} \underbrace{(v_l - v_k)}_{\not\equiv 0} \not\equiv\mathrlap{0 \pmod p}\)
+		    \item No four vertices coplanar \linebreak $\implies$ no two edges cross
+		\end{itemize}
 	\end{column}
-	    \begin{column}{0.6\textwidth}
-	\only<2>{
+	    \begin{column}{0.5\textwidth}
 		\begin{center}
 		    \animategraphics[autoplay, loop]{20}{anim/trackmomentcurve}{}{}
 		\end{center}
-	}
 	    \end{column}
     \end{columns}
 \end{frame}
 
-\begin{frame}
-    \begin{theorem}
-	Every graph on $n$ vertices with track number $t$ has a 3-dimensional straight-line drawing on the integer grid with $\mathcal O(t^2n)$ volume.
-    \end{theorem}
-    \pause
-    \begin{proof}
-	\begin{itemize}
-	    \item As long as any track has more than $\frac{n}{t}$ vertices, split its top $\lceil\frac{n}{t}\rceil$ vertices into a new track. \pause This gives at most $2t$ tracks with at most $\lceil\frac{n}{t}\rceil$ vertices each. \pause Plug this into the $\mathcal O(t^3n')$ bound of the previous theorem to get the result.
-	\end{itemize}
-    \end{proof}
+\begin{frame}{The Modular Moment Curve with tracks}
+    \vspace{-0.5cm}
+    \begin{columns}
+	\begin{column}{0.5\textwidth}
+		\begin{itemize}
+		    \item <+-> Let $p$ prime, $n\le p<2n$
+		    \item
+			Place $j$-th vertex of $i$-th track at \rlap{$(i, i^2 \mod p, i^3 \mod p \alert{+jp})$} \\
+			\end{itemize}
+			Case 1: All i's different
+			\begin{itemize}
+		    \item Four vertices are coplanar iff this matrix has determinant zero:
+			\begin{equation*}
+			    M = \begin{pmatrix}
+				{1}&i_0&i_0^2\mod p&i_0^3\mod p \alert{+j_0p}\\
+				{1}&i_1&i_1^2\mod p&i_1^3\mod p \alert{+j_1p}\\
+				{1}&i_2&i_2^2\mod p&i_2^3\mod p \alert{+j_2p}\\
+				{1}&i_3&i_3^2\mod p&i_3^3\mod p \alert{+j_3p}\\
+			    \end{pmatrix}
+			\end{equation*}
+		    \item 
+			\(\det(M) \equiv \prod_{0 \le k < l < 4} \underbrace{(v_l - v_k)}_{\not\equiv 0} \not\equiv\mathrlap{0 \pmod p}\)
+		    \item No four vertices coplanar \linebreak $\implies$ no two edges cross
+		\end{itemize}
+	\end{column}
+	    \begin{column}{0.5\textwidth}
+		\begin{center}
+		    \animategraphics[autoplay, loop]{20}{anim/trackmomentcurve}{}{}
+		\end{center}
+	    \end{column}
+    \end{columns}
 \end{frame}
 
-\begin{frame}
-    \begin{theorem}
-	Every $c$-colorable graph on $n$ vertices with track number $t$ has a 3-dimensional straight-line drawing on the integer grid with $\mathcal O(c^7tn)$ volume.
-    \end{theorem}
-    \begin{proof}{proof sketch}
-	Similar to how we put vertices of the same track into the same $xy$-axis, put vertices of the same color to the same $x$-coordinate. This works if we put the $k$-th vertex of the $j$-th track and the $i$-th color to \[
-	    \begin{pmatrix}
-		i\\ p(2it+j)+(i^2 \mod p)\\ p(20cin (p(2it+j)+(i^2 \mod p))+k)+(i^3 \mod p)
-	    \end{pmatrix}
-	\]
-    \end{proof}
+\begin{frame}{The Modular Moment Curve with tracks}
+    \vspace{-0.5cm}
+    \begin{columns}
+	\begin{column}{0.5\textwidth}
+		\begin{itemize}
+		    \item <+-> Let $p$ prime, $n\le p<2n$
+		    \item
+			Place $j$-th vertex of $i$-th track at \rlap{$(i, i^2 \mod p, i^3 \mod p \alert{+jp})$} \\
+			\end{itemize}
+			Case 2: \rlap{Two i's the same, WLOG $i_0=i_1$}
+			\begin{itemize}
+		    \item Four vertices are coplanar iff this matrix has determinant zero:
+			\begin{equation*}
+			    M = \begin{pmatrix}
+				{1}&i_1&i_1^2\mod p&i_1^3\mod p \alert{+j_0p}\\
+				{1}&i_1&i_1^2\mod p&i_1^3\mod p \alert{+j_1p}\\
+				{1}&i_2&i_2^2\mod p&i_2^3\mod p \alert{+j_2p}\\
+				{1}&i_3&i_3^2\mod p&i_3^3\mod p \alert{+j_3p}\\
+			    \end{pmatrix}
+			\end{equation*}
+		    \item <+-> 
+			\(\det(M) = \underbrace{(j_1p-j_0p)}_{\neq 0}\cdot\det
+			    \underbrace{
+				\begin{pmatrix}
+				    {1}&i_1&i_1^2\mod p\\
+				    {1}&i_2&i_2^2\mod p\\
+				    {1}&i_3&i_3^2\mod p\\
+				\end{pmatrix}
+			    }_{\not\equiv0} \mathrlap{\neq 0}
+			\)
+		\end{itemize}
+	\end{column}
+	    \begin{column}{0.5\textwidth}
+		\begin{center}
+		    \animategraphics[autoplay, loop]{20}{anim/trackmomentcurve}{}{}
+		\end{center}
+	    \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{The Modular Moment Curve with tracks}
+    \vspace{-0.5cm}
+    \begin{columns}
+	\begin{column}{0.5\textwidth}
+		\begin{itemize}
+		    \item <+-> Let $p$ prime, $n\le p<2n$
+		    \item
+			Place $j$-th vertex of $i$-th track at \rlap{$(i, i^2 \mod p, i^3 \mod p \alert{+jp})$} \\
+			\end{itemize}
+			Case 3: Two pairs of $i$s are the same, e.g. $i_0 = i_2$ and $i_1 = i_3$
+			\begin{itemize}
+			    \item<+-> Edges $i_0i_2$ and $i_1i_3$ are between the same track
+			    \item<+-> Crossing in the 3D drawing would also be crossing in track layout
+		\end{itemize}
+	\end{column}
+	    \begin{column}{0.5\textwidth}
+		\begin{center}
+		    \animategraphics[autoplay, loop]{20}{anim/trackmomentcurve-xcr}{}{}
+		\end{center}
+	    \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{The Modular Moment Curve with tracks}
+    \vspace{-0.5cm}
+    \begin{columns}
+	\begin{column}{0.5\textwidth}
+		\begin{itemize}
+		    \item <+-> Let $p$ prime, $n\le p<2n$
+		    \item
+			Place $j$-th vertex of $i$-th track at \rlap{$(i, i^2 \mod p, i^3 \mod p \alert{+jp})$} \\
+			\end{itemize}
+			Case 4: Three or more $i$s are the same
+			\begin{itemize}
+			    \item<+-> Impossible: \rlap{requires intertrack edges}
+			\end{itemize}
+	\end{column}
+	    \begin{column}{0.5\textwidth}
+		\begin{center}
+		    \animategraphics[autoplay, loop]{20}{anim/trackmomentcurve-ite}{}{}
+		\end{center}
+	    \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{The Modular Moment Curve with tracks}
+    \vspace{-0.5cm}
+    \begin{columns}
+	\begin{column}{0.5\textwidth}
+	    \begin{theorem}
+		Every graph on $n$ vertices with track number $t$ has a 3-dimensional crossing-free straight-line drawing on the integer grid with $\mathcal O(t^3n)$ volume. 
+	    \end{theorem}
+	\end{column}
+	    \begin{column}{0.5\textwidth}
+		\begin{center}
+		    \animategraphics[autoplay, loop]{20}{anim/trackmomentcurve}{}{}
+		\end{center}
+	    \end{column}
+    \end{columns}
 \end{frame}
 
 \subsection{Queues and chromatic number to Tracks}
 
-\begin{frame}
-    \begin{theorem}
-	Every graph on $n$ vertices with queue number $q$ and acyclic chromatic number $c$ has track number $c(2q)^{c-1}$
-    \end{theorem}
+\begin{frame}{Outline of the proof}
+    \foreach \i in {4, ..., 5} {
+	\only<+>{
+	    \begin{center}
+		\still[\i]{static/outline}
+	    \end{center}
+	}
+    }
 \end{frame}
 
 \begin{frame}
@@ -327,41 +445,36 @@ ETH Zürich}
 \end{frame}
 
 \begin{frame}{The Refinement Lemma}
+	    \vspace{-0.5cm}
     \begin{columns}
 	\begin{column}{0.4\textwidth}
 	    \begin{lemma}
-		Given a graph $G$ with
-		\pause
+		\only<+->{
+		Given a graph with}
 		\begin{itemize}
-		    \item an acyclic {\only<3->{\relax}$c$}-coloring
-			\pause
-		    \item a (not necesserily proper) {\only<3->{\relax}$k$}-edge-coloring,
-			\pause
+		    \item<+-> an acyclic {\only<3->{\relax}$c$}-coloring
+		    \item<+-> a (not necessarily proper) {\only<3->{\relax}$k$}-edge-coloring,
 		\end{itemize}
-		there is a proper $ck^{c-1}$-vertex-coloring of $G$ such that
-		\pause
+		\only<+->{
+		    there is a proper $ck^{c-1}$-vertex-coloring of $G$ such that
+		}
 		\begin{itemize}
-			\pause
-		    \item every new vertex color class is contained in one old vertex color class, \rlap{and}
-			\pause
-		    \item the edges between any two vertex color classes are monochromatic. 
+		    \item<+-> every new vertex color class is contained in one old vertex color class, \rlap{and}
+		    \item<+-> the edges between any two vertex color classes are monochromatic. 
 		\end{itemize}
 	    \end{lemma}
 	\end{column}
 	\begin{column}{0.6\textwidth}%
-		\only<-+>{%
+		\only<-6>{%
 		    \begin{center}%
 			\still[1]{static/refinementlemma}%
 		    \end{center}%
 		}%
-	    \vspace{-0.5cm}
-	    \foreach\i in {2, ..., 15}{%
-		\only<+>{%
+		\only<7->{%
 		    \begin{center}%
-			\still[\i]{static/refinementlemma}%
+			\still[2]{static/refinementlemma}%
 		    \end{center}%
 		}%
-	    }%
 	\end{column}%
     \end{columns}
 \end{frame}
@@ -380,7 +493,7 @@ ETH Zürich}
 		    }%
 		    \only<9-> {%
 			\alert<9>{%
-		    \item Partition the edges of each queue into forward and backward edges, then use the resulting $2q$ sets as a $2q$-edge-coloring.%
+		    \item Partition the edges of each queue into upwards and downwards edges, then use the resulting $2q$ sets as a $2q$-edge-coloring.%
 		    }%
 		    }%
 		\pause
@@ -406,7 +519,16 @@ ETH Zürich}
 	    }
 \end{frame}
 
-\subsection{Bounds on acyclic chromatic number}
+\begin{frame}{Outline of the proof}
+    \foreach \i in {6, ..., 7} {
+	\only<+>{
+	    \begin{center}
+		\still[\i]{static/outline}
+	    \end{center}
+	}
+    }
+\end{frame}
+
 \begin{frame}
     \begin{theorem}
 	Outerplanar graphs have acyclic chromatic number at most three
@@ -435,9 +557,9 @@ ETH Zürich}
 	Let $G$ be a planar graph. \pause WLOG assume $G$ is connected. \pause We will construct a $9$-coloring and show that it does not contain a bichromatic cycle \pause (and that it is proper).
 	\begin{itemize}
 		\pause
-	    \item Choose some $v_0$, called the \textit{center}<++>.
+	    \item Choose some \textit{center} $v_0$.
 		\pause
-	    \item We define the \emph{circle} $C_i = \left\{v \in G | d(v, v_0)=i\right\}$. Similarly define $C_{<i}$ etc.
+	    \item We define the \emph{circle} $C_i = \left\{v \in G | d(v, v_0)=i\right\}$. 
 		\pause
 	    \item Use a different set of three colors for the circles $C_{3k}$, $C_{3k+1}$, $C_{3k+2}$
 		\pause
@@ -449,49 +571,13 @@ ETH Zürich}
     \end{proof}
 \end{frame}
 
-\begin{frame}{Coloring the circles}
+\begin{frame}[plain]{Coloring the circles}
     \begin{task}
-	Color the circle $C_i$ such that it cannot be the innermost shell of a bichromatic cycle.
+	Color the circle $C_i$ such that it cannot be the innermost circle of a bichromatic cycle.
     \end{task}
-    \pause
-    \begin{itemize}
-	\item Start with the induced subgraph $G[C_i]$. 
-		\pause
-	\item For each vertex $v \in C_{j+1}$, let $v_1, v_2, \dots, v_j$ be the cyclic order of the vertices in $C_i$ adjacent to $v$. Add edges $v_1v_2, v_2v_3, \dots, v_jv_1$ if they don't exist. 
-		\pause
-    \end{itemize}
-    We can see the resulting graph $C_i^*$ is outerplanar if we:
-		\pause
-    \begin{itemize}
-	\item Notice that $G[C_{<i}]$ is connected and each vertex of $C_i$ has an edge into $C_{<i}$ (in $G$)
-		\pause
-	\item Follow that the vertices of $C_i$ belong to a common face in $G[C_{\ge i}]$
-		\pause
-	\item Draw the edges added to form $C_i^*$ by closely following the edges from the vertex $v \in C_{i+1}$ of the current step.
-		\pause
-    \end{itemize}
-    So, we can color $C_i^*$ acyclically with three colors.
-\end{frame}
-
-\begin{frame}
-    \begin{claim}
-	$C_i$, colored as described above, cannot be the innermost circle of a bichromatic cycle of $G$
-    \end{claim}
-    \pause
-    \begin{proof}
-	Assume for a contradiction that such a cycle exists. This cycle consists of alternating vertices of $C_i$ and $C_{i+1}$:
-	\pause
-
-	Let $v_0v_1v_2$ be consecutive vertices on the cycle with $v_1\in C_{i+1}$. We distinguish by the degree of $v_1$
-	\pause
-	\begin{itemize}
-	    \item Degree $1$: Impossible, because $v_0, v_2$ are both neighbors of $v_1$
-		\pause
-	    \item Degree $2$ or $3$: Impossible, because $v_0, v_2$ are neighbors in $C_{i}^*$
-		\pause
-	    \item Degree $4$ or more: Take the vertices to the left and right of $v_0$ in cyclic ordering around $v_1$. They, together with $v_1$ and $C_{<i}$, cut off $v_0$ (or $v_1$) from the other end of the cycle. 
-	\end{itemize}
-    \end{proof}
+    \begin{tikzpicture}[overlay]
+	\fill[black] (-30, -30) rectangle (30, 0);
+    \end{tikzpicture}
 \end{frame}
 
 \begin{frame}{Concluding the proof}
@@ -510,7 +596,7 @@ ETH Zürich}
     \end{theorem}
     \pause
     \begin{proof}
-	Same as our proof for outerplanar graphs (i.e. reducing any graph to another graph with less vertices), except with 450 cases.\only<.>{\tiny Details left as exercise.}
+	Same as our proof for outerplanar graphs (i.e. reducing any graph to another graph with less vertices)\pause, except with 450 cases.\only<+(+1)>{\tiny Details left as exercise.}
     \end{proof}
     \pause
     \begin{theorem}
@@ -519,49 +605,101 @@ ETH Zürich}
 \end{frame}
 
 \begin{frame}{Summary}
-    \begin{table}
-	\centering
-
-\begin{tabular}{lllll}
-                                  &   & Acyclic   &      & 3D      \\
-                                  &  Queue &   Chromatic &  Track    &   Drawing    \\
-                                  & Number  &   Number &   Number   &   Volume    \\
-Proven now                        & 42           & \pause9                        &\pause $9\cdot10^{13}$ &\pause $8\cdot 10^{27}\cdot n$ \pause \\
-Proven anytime                    & 42           &\pause 5                        &\pause $3\cdot10^7$    &\pause $4\cdot10^{11}\cdot n$ \pause  \\
-Best lower bound of qn &\pause 4            &\pause 5                        &\pause $1280$          &\pause $1.5\cdot10^6\cdot n$   
-\end{tabular}
-    \end{table}
+    \foreach \i in {8, ..., 9} {
+	\only<+>{
+	    \begin{center}
+		\still[\i]{static/outline}
+	    \end{center}
+	}
+    }
 \end{frame}
+
+\begin{frame}{Best known upper bounds}
+    \foreach \i in {10} {
+	\only<+>{
+	    \begin{center}
+		\still[\i]{static/outline}
+	    \end{center}
+	}
+    }
+\end{frame}
+
+\begin{frame}{Best known lower bound of queue number}
+    \foreach \i in {11} {
+	\only<+>{
+	    \begin{center}
+		\still[\i]{static/outline}
+	    \end{center}
+	}
+    }
+\end{frame}
+
+% \begin{frame}{Summary}
+    % \begin{table}
+	% \centering
+% 
+% \begin{tabular}{lllll}
+                                  % &   & Acyclic   &      & 3D      \\
+                                  % &  Queue &   Chromatic &  Track    &   Drawing    \\
+                                  % & Number  &   Number &   Number   &   Volume    \\
+% Proven now                        & 42           & \pause9                        &\pause $9\cdot10^{13}$ &\pause $8\cdot 10^{27}\cdot n$ \pause \\
+% Proven anytime                    & 42           &\pause 5                        &\pause $3\cdot10^7$    &\pause $4\cdot10^{11}\cdot n$ \pause  \\
+% Best lower bound of qn &\pause 4            &\pause 5                        &\pause $1280$          &\pause $1.5\cdot10^6\cdot n$   
+% \end{tabular}
+    % \end{table}
+% \end{frame}
 
 \begin{frame}{Further results}
+    \foreach \i in {11,12,13,14} {
+	\only<+>{
+	    \begin{center}
+		\still[\i]{static/outline}
+	    \end{center}
+	}
+    }
+\end{frame}
+
+% \begin{frame}{Further results}
+    % \begin{itemize}
+	% \item Some of the steps we've taken also work in reverse:
+	    % \begin{itemize}
+		% \item Queue number is bounded by track number.
+		% \item If a graph has a $\mathcal O(1) \times \mathcal O(1) \times \mathcal O(n)$ drawing, then it has track number $\mathcal O(1)$
+	    % \end{itemize}
+	% \item Acyclic chromatic number is also bounded by queue number
+	    % \begin{itemize}
+		% \item In particular, any proper minor-closed family has 3D drawings with linear volume
+	    % \end{itemize}
+    % \end{itemize}
+    % \end{frame}
+
+    \begin{frame}{Open problems}
     \begin{itemize}
-	\item Some of the steps we've taken also work in reverse:
+	    \pause
+	\item Can we improve the upper bound on
 	    \begin{itemize}
-		\item Queue number is bounded by track number.
-		\item If a graph has a $\mathcal O(1) \times \mathcal O(1) \times \mathcal O(n)$ drawing, then it has track number $\mathcal O(1)$
-	    \end{itemize}
-	\item Acyclic chromatic number is also bounded by queue number
-	    \begin{itemize}
-		\item In particular, any proper minor-closed family has 3D drawings with linear volume
-	    \end{itemize}
-    \end{itemize}
-    \end{frame}
-    \begin{frame}{Open questions}
-    \begin{itemize}
-	    \pause
-	\item What is the maximum volume of a $n$-vertex 3D drawing for planar graphs (and other families of graphs)?
-	    \pause
-	\item What is the maximum track-number of planar graphs (and other families of graphs)?
-	    \pause
-	\item What is the maximum queue-number of planar graphs (and other families of graphs)?
-	    \pause
-	\item Can we construct $\mathcal O(n)$ three-dimensional drawings of planar graphs with some other nice properties, such as: 
-	    \pause
-	    \begin{itemize}
-		\item Low aspect ratio
 		    \pause
-		\item Adjacent vertices being close
+		\item the volume of $n$-vertex 3D drawings?
+		    \pause
+		\item the track number?
+		    \pause
+		\item the queue number?
+	    \end{itemize}
+	\item Can we construct linear-volume drawings with 
+	    \pause
+	    \begin{itemize}
+		\item low aspect ratio?
+		    \pause
+		\item adjacent vertices being close?
+		    \pause
+		\item other additional properties?
 	    \end{itemize}
     \end{itemize}
 \end{frame}
+
+\bgroup
+\setbeamercolor{background canvas}{bg=black}
+\begin{frame}[plain]{}
+\end{frame}
+\egroup
 \end{document}

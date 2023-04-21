@@ -5,7 +5,7 @@ print("""\\documentclass[tikz]{standalone}
 \\foreach \\rot in {0, 1, ..., 359} {
     \\tdplotsetrotatedcoords{0}{0}{\\rot}
     \\begin{tikzpicture}[scale=0.7, tdplot_rotated_coords,line join=round]
-    \\useasboundingbox (-6cm, -6cm) -- (6cm, 2cm);
+    \\useasboundingbox (-6cm, -4cm) -- (6cm, 8cm);
     \\coordinate (tr) at (-1, -1, -1);
     \\begin{scope}[shift=(tr)]
     \\draw[->] (0,0,0) -- (2, 0, 0);
@@ -13,7 +13,7 @@ print("""\\documentclass[tikz]{standalone}
     \\draw[->] (0,0,0) -- (0, 0, 2);
     \\node at (3,0,0) {x};
     \\node at (0,3,0) {y};
-    \\node at (0,0,3) {z};
+    \\node at ([xshift=5mm] 0,0,2) {z};
 """)
 
 print("""\draw (0,0,0)""")

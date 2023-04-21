@@ -1,0 +1,95 @@
+\PassOptionsToPackage{usenames,dvipsnames}{xcolor}
+\documentclass[tikz]{standalone}
+\usetikzlibrary{positioning}
+\usetikzlibrary{arrows.meta}
+\usepackage[]{amsmath}
+
+\begin{document}
+\tikzset{
+    outline/.style={
+	line width=1, every path/.append style={line width=1},
+	execute at end picture={
+	    \begin{scope}[unsolved]
+		\useasboundingbox[draw=none, fill=none] (-6,-0.5) rectangle (6, 7);
+	    \end{scope}
+	},
+	3D drawing/.code={
+	    \node (3D drawing) [rectangle, draw, above=of bounded track number] {$\mathcal O(n)$ volume 3D drawing};
+	    \draw [arrows={->[scale=2]}] (bounded track number) -- (3D drawing);
+	},
+	bounded track number/.code={
+	    \node (merge point) [shape=coordinate, above=3 of planar graph] {};
+	    \node (bounded track number) [rectangle, align=center, draw, above=of merge point] {Bounded\\track number};
+	    \draw [arrows={->[scale=2]}] (merge point) -- (bounded track number);
+	    \draw (bounded acyclic chromatic number.north east) -- (merge point);
+	    \draw (bounded queue number.north west) -- (merge point);
+	},
+	bounded acyclic chromatic number/.code={
+	    \path (planar graph.north west) +(0, 1) node (bounded acyclic chromatic number) [rectangle, align=center, draw, anchor=south east] {Bounded acyclic\\chromatic number};
+	    \draw [arrows={->[scale=2]}] (planar graph.north) -- (bounded acyclic chromatic number.south east);
+	},
+	bounded queue number/.code={
+	    \path (planar graph.north east) +(0, 1) node (bounded queue number) [rectangle, align=center, draw, anchor=south west] {Bounded\\queue number};
+	    \draw [arrows={->[scale=2]}] (planar graph.north) -- (bounded queue number.south west);
+	},
+	reverse/.code={
+	    \draw [red, arrows={->[scale=2]}] ([xshift=.5cm]bounded track number.south) -- ([xshift=.5cm, yshift=.3cm]merge point) -- ([xshift=.8cm]bounded queue number.north west);
+	    \draw [red, arrows={->[scale=2]}] ([xshift=-.5cm]bounded track number.south) -- ([xshift=-.5cm, yshift=.3cm]merge point) -- ([xshift=-0.8cm]bounded acyclic chromatic number.north east);
+	},
+	kinda reverse/.code={
+	    \path (3D drawing.north east) +(0.8, 0) node [fill=none, align=center, anchor=north west] (specific 3D drawing) {$\mathcal O(1) \times \mathcal O(1) \times \mathcal O(n)$ \\ 3D drawing};
+	    \draw [red, arrows={->[scale=2]}] (specific 3D drawing.south west) -- (bounded track number.north east);
+	},
+	queue track express/.code={
+	    \draw [red, arrows={->[scale=2]}] (bounded queue number) -- (bounded acyclic chromatic number);
+	},
+	planar graph/.code={
+	    \node (planar graph) [rectangle, draw] {Planar graph};
+	},
+	unsolved/.style = {every path/.append style={draw=black}, every node/.style = {fill = none}},
+	solved/.style = {every path/.append style={draw=ForestGreen}, every node/.style={fill=SpringGreen, draw=black}},
+	todo/.style={every path/.append style={draw=Dandelion}, every node/.style={draw=Dandelion, fill=none}},
+	actual bounds/.style={
+	    node distance=0.1, every node/.style={fill=none, draw=none},
+	},
+	shown this talk/.code={
+	    \begin{scope}[actual bounds]
+		\node[left=of bounded acyclic chromatic number] {$\xi_a(G) \le 9$};
+		\node[right=of bounded queue number] {$\operatorname{qn}(G) \le 42$};
+		\node[left=of bounded track number] {$\operatorname{qn}(G) \le 2.3\cdot10^{16}$};
+		\node[left=of 3D drawing, align=center] {3D drawing with \\volume $\le 5\cdot10^{49}\cdot n$};
+	    \end{scope}
+	},
+	shown in literature/.code={
+	    \begin{scope}[actual bounds]
+		\node[left=of bounded acyclic chromatic number] {$\xi_a(G) \le 5$};
+		\node[right=of bounded queue number] {$\operatorname{qn}(G) \le 42$};
+		\node[left=of bounded track number] {$\operatorname{qn}(G) < 2.5\cdot10^{8}$};
+		\node[left=of 3D drawing, align=center] {3D drawing with \\volume $\le 2.5\cdot10^{17} \cdot n$};
+	    \end{scope}
+	},
+	best possible queue number/.code={
+	    \begin{scope}[actual bounds]
+		\node[left=of bounded acyclic chromatic number] {$\xi_a(G) \le 5$};
+		\node[right=of bounded queue number] {$\operatorname{qn}(G) \le 4$};
+		\node[left=of bounded track number] {$\operatorname{qn}(G) \le 20480$};
+		\node[left=of 3D drawing, align=center] {3D drawing with \\volume $<1.6\cdot10^{9} \cdot n$};
+	    \end{scope}
+	},
+    }
+}
+\tikz[outline, planar graph, bounded queue number, unsolved, bounded acyclic chromatic number, bounded track number, 3D drawing];
+\tikz[outline, solved, planar graph, bounded queue number, unsolved, bounded acyclic chromatic number, bounded track number, 3D drawing];
+\tikz[outline, solved, planar graph, bounded queue number, unsolved, bounded acyclic chromatic number, bounded track number, todo, 3D drawing];
+\tikz[outline, solved, planar graph, bounded queue number, unsolved, bounded acyclic chromatic number, bounded track number, solved, 3D drawing];
+\tikz[outline, solved, planar graph, bounded queue number, unsolved, bounded acyclic chromatic number, todo, bounded track number, solved, 3D drawing];
+\tikz[outline, solved, planar graph, bounded queue number, unsolved, bounded acyclic chromatic number, solved, bounded track number, 3D drawing];
+\tikz[outline, solved, planar graph, bounded queue number, todo, bounded acyclic chromatic number, solved, bounded track number, 3D drawing];
+\tikz[outline, solved, planar graph, bounded queue number, bounded acyclic chromatic number, bounded track number, 3D drawing];
+\tikz[outline, solved, planar graph, bounded queue number, bounded acyclic chromatic number, bounded track number, 3D drawing, shown this talk];
+\tikz[outline, solved, planar graph, bounded queue number, bounded acyclic chromatic number, bounded track number, 3D drawing, shown in literature];
+\tikz[outline, solved, planar graph, bounded queue number, bounded acyclic chromatic number, bounded track number, 3D drawing, best possible queue number];
+\tikz[outline, solved, planar graph, bounded queue number, bounded acyclic chromatic number, bounded track number, 3D drawing, reverse];
+\tikz[outline, solved, planar graph, bounded queue number, bounded acyclic chromatic number, bounded track number, 3D drawing, reverse, kinda reverse];
+\tikz[outline, solved, planar graph, bounded queue number, bounded acyclic chromatic number, bounded track number, 3D drawing, reverse, kinda reverse, queue track express];
+\end{document}
