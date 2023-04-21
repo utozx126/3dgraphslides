@@ -124,7 +124,7 @@
 
 \begin{frame}{Main result}
     \footcite{Theorem from: Dujmović, Joret, Micek, Morin, Ueckerdt and Wood (2020): \textit{Planar Graphs Have Bounded Queue Number}}
-    \begin{theorem}
+    \begin{theorem}[Dujmović et al. 2020]
 	\uncover<+->{Every planar graph with $n$ vertices has a 3-dimensional crossing-free straight-line drawing on the integer grid}
 	\uncover<+->{with $\mathcal O(n)$ Volume.}
     \end{theorem}
@@ -152,7 +152,7 @@
 			    \end{pmatrix}
 			\end{equation*}
 		    \item<+-> This is a Vandermonde Matrix \rlap{with}
-			\[\det(M) = \prod_{0 \le k < l < 4} \alt<+->{\underbrace{(v_l - v_k)}_{\neq 0}}{(v_l-v_k)} \uncover<+->{\neq 0}\]
+			\[\det(M) = \prod_{0 \le k < l < 4} \alt<+->{\underbrace{(i_l - i_k)}_{\neq 0}}{(i_l-i_k)} \uncover<+->{\neq 0}\]
 		    \item<+-> No four vertices coplanar \linebreak $\implies$ no two edges cross
 		\end{itemize}
 	\end{column}
@@ -182,7 +182,7 @@
 			    \end{pmatrix}
 			\end{equation*}
 		    \item 
-			\(\det(M) \alt<+->{\alert{\equiv}}{=} \prod_{0 \le k < l < 4} \underbrace{(v_l - v_k)}_{\alt<+->{\alert{\not\equiv}}{\neq}0} \alt<+->{\alert{\not\equiv}}{\neq}\mathrlap{0 \uncover<.(-2)->{\alert{\pmod p}}}\)
+			\(\det(M) \alt<+->{\alert{\equiv}}{=} \prod_{0 \le k < l < 4} \underbrace{(i_l - i_k)}_{\neq0} \neq\mathrlap{0 \uncover<.(-2)->{\alert{\pmod p}}}\)
 		    \item No four vertices coplanar \linebreak $\implies$ no two edges cross
 		\end{itemize}
 	\end{column}
@@ -199,7 +199,7 @@
 \end{frame}
 
 \begin{frame}{Upper bound for general graphs}
-    \begin{theorem}
+    \begin{theorem}[Cohen et al. 1996]
 	Every graph on $n$ vertices has a $\mathcal O(n^3)$ 3D crossing-free straight-line drawing.
     \end{theorem}
 \end{frame}
@@ -241,7 +241,6 @@
 \subsection{Track Layouts to 3D drawings}
 
 \begin{frame}{Track Layouts}
-    \footcite{Theorem from: Dujmović, Joret, Micek, Morin, Ueckerdt and Wood (2020): \textit{Planar Graphs Have Bounded Queue Number}}
     \foreach \i in {1, ..., 4} {
 	\only<+>{
 	    \begin{center}
@@ -256,21 +255,9 @@
     \begin{columns}
 	\begin{column}{0.5\textwidth}
 		\begin{itemize}
-		    \item <+-> Let $p$ prime, $n\le p<2n$
+		    \item <+-> Let $p$ prime, $t\le p<2t$
 		    \item
 			Place $j$-th vertex of $i$-th track at \rlap{$(i, i^2 \mod p, i^3 \mod p \alert{+jp})$} \\
-		    \item Four vertices are coplanar iff this matrix has determinant zero:
-			\begin{equation*}
-			    M = \begin{pmatrix}
-				{1}&i_0&i_0^2\mod p&i_0^3\mod p \alert{+jp}\\
-				{1}&i_1&i_1^2\mod p&i_1^3\mod p \alert{+jp}\\
-				{1}&i_2&i_2^2\mod p&i_2^3\mod p \alert{+jp}\\
-				{1}&i_3&i_3^2\mod p&i_3^3\mod p \alert{+jp}\\
-			    \end{pmatrix}
-			\end{equation*}
-		    \item 
-			\(\det(M) \equiv \prod_{0 \le k < l < 4} \underbrace{(v_l - v_k)}_{\not\equiv 0} \not\equiv\mathrlap{0 \pmod p}\)
-		    \item No four vertices coplanar \linebreak $\implies$ no two edges cross
 		\end{itemize}
 	\end{column}
 	    \begin{column}{0.5\textwidth}
@@ -286,7 +273,7 @@
     \begin{columns}
 	\begin{column}{0.5\textwidth}
 		\begin{itemize}
-		    \item <+-> Let $p$ prime, $n\le p<2n$
+		    \item <+-> Let $p$ prime, $t\le p<2t$
 		    \item
 			Place $j$-th vertex of $i$-th track at \rlap{$(i, i^2 \mod p, i^3 \mod p \alert{+jp})$} \\
 			\end{itemize}
@@ -302,7 +289,7 @@
 			    \end{pmatrix}
 			\end{equation*}
 		    \item 
-			\(\det(M) \equiv \prod_{0 \le k < l < 4} \underbrace{(v_l - v_k)}_{\not\equiv 0} \not\equiv\mathrlap{0 \pmod p}\)
+			\(\det(M) \equiv \mathrlap{\prod_{0 \le k < l < 4} \underbrace{(i_l - i_k)}_{\not\equiv 0} \not\equiv0 \pmod p}\)
 		    \item No four vertices coplanar \linebreak $\implies$ no two edges cross
 		\end{itemize}
 	\end{column}
@@ -319,7 +306,7 @@
     \begin{columns}
 	\begin{column}{0.5\textwidth}
 		\begin{itemize}
-		    \item <+-> Let $p$ prime, $n\le p<2n$
+		    \item <+-> Let $p$ prime, $t\le p<2t$
 		    \item
 			Place $j$-th vertex of $i$-th track at \rlap{$(i, i^2 \mod p, i^3 \mod p \alert{+jp})$} \\
 			\end{itemize}
@@ -359,13 +346,13 @@
     \begin{columns}
 	\begin{column}{0.5\textwidth}
 		\begin{itemize}
-		    \item <+-> Let $p$ prime, $n\le p<2n$
+		    \item <+-> Let $p$ prime, $t\le p<2t$
 		    \item
 			Place $j$-th vertex of $i$-th track at \rlap{$(i, i^2 \mod p, i^3 \mod p \alert{+jp})$} \\
 			\end{itemize}
 			Case 3: Two pairs of $i$s are the same, e.g. $i_0 = i_2$ and $i_1 = i_3$
 			\begin{itemize}
-			    \item<+-> Edges $i_0i_2$ and $i_1i_3$ are between the same track
+			    \item<+-> Edges are between the same track
 			    \item<+-> Crossing in the 3D drawing would also be crossing in track layout
 		\end{itemize}
 	\end{column}
@@ -382,7 +369,7 @@
     \begin{columns}
 	\begin{column}{0.5\textwidth}
 		\begin{itemize}
-		    \item <+-> Let $p$ prime, $n\le p<2n$
+		    \item <+-> Let $p$ prime, $t\le p<2t$
 		    \item
 			Place $j$-th vertex of $i$-th track at \rlap{$(i, i^2 \mod p, i^3 \mod p \alert{+jp})$} \\
 			\end{itemize}
@@ -403,7 +390,7 @@
     \vspace{-0.5cm}
     \begin{columns}
 	\begin{column}{0.5\textwidth}
-	    \begin{theorem}
+	    \begin{theorem}[Dujmović et al. 2005]
 		Every graph on $n$ vertices with track number $t$ has a 3-dimensional crossing-free straight-line drawing on the integer grid with $\mathcal O(t^3n)$ volume. 
 	    \end{theorem}
 	\end{column}
@@ -414,8 +401,6 @@
 	    \end{column}
     \end{columns}
 \end{frame}
-
-\subsection{Queues and chromatic number to Tracks}
 
 \begin{frame}{Outline of the proof}
     \foreach \i in {4, ..., 5} {
@@ -447,8 +432,8 @@
 \begin{frame}{The Refinement Lemma}
 	    \vspace{-0.5cm}
     \begin{columns}
-	\begin{column}{0.4\textwidth}
-	    \begin{lemma}
+	\begin{column}{0.5\textwidth}
+	    \begin{lemma}[Alon and Marshall 1998]
 		\only<+->{
 		Given a graph with}
 		\begin{itemize}
@@ -464,7 +449,7 @@
 		\end{itemize}
 	    \end{lemma}
 	\end{column}
-	\begin{column}{0.6\textwidth}%
+	\begin{column}{0.5\textwidth}%
 		\only<-6>{%
 		    \begin{center}%
 			\still[1]{static/refinementlemma}%
@@ -480,13 +465,11 @@
 \end{frame}
 
 \begin{frame}
-    \begin{theorem}
+    \begin{theorem}[Dujmović et al. 2005]
 	Every graph on $n$ vertices with queue number $q$ and acyclic chromatic number $c$ has track number at most $c(2q)^{c-1}$
     \end{theorem}
     \begin{proof}
 	\begin{itemize}
-		\pause
-	    \item Let $\le_Q$ be the linear ordering from a $q$-queue-layout. 
 		\pause
 		    \only<-8> {%
 		    \item Use the $q$ queues for a $q$-edge-coloring.%
@@ -497,9 +480,9 @@
 		    }%
 		    }%
 		\pause
-	    \item Apply the refinement lemma to an acyclic $c$-coloring and the above edge \alert<9>{$2q$}-coloring.
+	    \item Apply the refinement lemma to an acyclic $c$-coloring and the above edge \alt<9->{\alert<9>{$2q$}}{$q$}-coloring.
 		\pause
-	    \item The tracks are the refined colors, ordered by $\le_Q$
+	    \item The tracks are the refined colors, each ordered like in the queue layout
 	\end{itemize}
 	\only<9->{
 	    Do the ``tracks'' actually form a track layout?
@@ -530,7 +513,7 @@
 \end{frame}
 
 \begin{frame}
-    \begin{theorem}
+    \begin{theorem}[Grünbaum 1972]
 	Outerplanar graphs have acyclic chromatic number at most three
     \end{theorem}
     \pause
@@ -549,7 +532,7 @@
 \end{frame}
 
 \begin{frame}
-    \begin{theorem}
+    \begin{theorem}[Grünbaum 1972]
 	Planar graphs have acyclic chromatic number at most nine.
     \end{theorem}
     \pause
@@ -559,21 +542,21 @@
 		\pause
 	    \item Choose some \textit{center} $v_0$.
 		\pause
-	    \item We define the \emph{circle} $C_i = \left\{v \in G | d(v, v_0)=i\right\}$. 
+	    \item We define the \emph{shell} $S_i = \left\{v \in G | d(v, v_0)=i\right\}$. 
 		\pause
-	    \item Use a different set of three colors for the circles $C_{3k}$, $C_{3k+1}$, $C_{3k+2}$
+	    \item Use a different set of three colors for the shells $S_{3k}$, $S_{3k+1}$, $S_{3k+2}$
 		\pause
-	    \item Observe: Edges of $G$ are within a single circle or between two adjacent circles.
+	    \item Observe: Edges of $G$ are within a single shell or between two adjacent shells.
 		\pause
-	    \item We will now color each circle $S_i$ such that it cannot be the innermost circle of a bichromatic cycle.
+	    \item We will now color each shell $S_i$ such that it cannot be the innermost shell of a bichromatic cycle.
 	\end{itemize}
 	\phantom\qedhere
     \end{proof}
 \end{frame}
 
-\begin{frame}[plain]{Coloring the circles}
+\begin{frame}[plain]{Coloring the shells}
     \begin{task}
-	Color the circle $C_i$ such that it cannot be the innermost circle of a bichromatic cycle.
+	Color the shell $S_i$ such that it cannot be the innermost shell of a bichromatic cycle.
     \end{task}
     \begin{tikzpicture}[overlay]
 	\fill[black] (-30, -30) rectangle (30, 0);
@@ -581,7 +564,7 @@
 \end{frame}
 
 \begin{frame}{Concluding the proof}
-    \begin{theorem}
+    \begin{theorem}[Grünbaum 1972]
 	Planar graphs have acyclic chromatic number at most nine.
     \end{theorem}
     \pause
@@ -591,7 +574,7 @@
 \end{frame}
 
 \begin{frame}{Better bounds}
-    \begin{theorem}
+    \begin{theorem}[Borodin 1979]
 	Planar graphs have acyclic chromatic number at most five.
     \end{theorem}
     \pause
@@ -599,7 +582,7 @@
 	Same as our proof for outerplanar graphs (i.e. reducing any graph to another graph with less vertices)\pause, except with 450 cases.\only<+(+1)>{\tiny Details left as exercise.}
     \end{proof}
     \pause
-    \begin{theorem}
+    \begin{theorem}[Grünbaum 1972]
 	Some planar graphs have acyclic chromatic number five.
     \end{theorem}
 \end{frame}
