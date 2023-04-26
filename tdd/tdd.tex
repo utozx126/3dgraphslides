@@ -85,7 +85,7 @@
 
 \section{Motivation for 3D drawings}
 \begin{frame}{Why 3D drawings?}{}
-    \begin{itemize}
+    \only<+>{\relax}\begin{itemize}
 	\item<+->
 	    ``Nice'' drawings
 
@@ -182,7 +182,7 @@
 			    \end{pmatrix}
 			\end{equation*}
 		    \item 
-			\(\det(M) \alt<+->{\alert{\equiv}}{=} \prod_{0 \le k < l < 4} \underbrace{(i_l - i_k)}_{\neq0} \neq\mathrlap{0 \uncover<.(-2)->{\alert{\pmod p}}}\)
+			\(\det(M) \alt<+->{\alert{\equiv}}{=} \prod_{0 \le k < l < 4} \underbrace{(i_l - i_k)}_{\alt<+->{\alert{\not\equiv}}{\neq}0} \alt<+->{\alert{\not\equiv}}{\neq}\mathrlap{0 \uncover<.(-2)->{\alert{\pmod p}}}\)
 		    \item No four vertices coplanar \linebreak $\implies$ no two edges cross
 		\end{itemize}
 	\end{column}
@@ -414,12 +414,13 @@
 
 \begin{frame}
     \begin{definition}[Acyclic coloring]
-	An acyclic coloring is a proper coloring such that every bichromatic subgraph is a forest, or equivalently, such that every cycle receives at least three colors. 
+	An acyclic coloring is a proper coloring such that every bichromatic subgraph is a forest\uncover<6->{, or equivalently, such that every cycle receives at least three colors. }
     \end{definition}
-    \pause
+    \uncover<7->{
     \begin{definition}[Acyclic Chromatic Number]
 	The acyclic chromatic number $\chi_a(G)$ is the smallest number of colors across all acyclic colorings of $G$.
     \end{definition}
+}
     \foreach\i in {1, ..., 5}{
 	\only<+>{
 	    \begin{center}
@@ -427,6 +428,11 @@
 	    \end{center}
 	}
     }
+	\only<+->{
+	    \begin{center}
+		\still[5]{static/acycliccoloring}
+	    \end{center}
+	}
 \end{frame}
 
 \begin{frame}{The Refinement Lemma}
@@ -466,7 +472,7 @@
 
 \begin{frame}
     \begin{theorem}[Dujmović et al. 2005]
-	Every graph on $n$ vertices with queue number $q$ and acyclic chromatic number $c$ has track number at most $c(2q)^{c-1}$
+	Every graph with queue number $q$ and acyclic chromatic number $c$ has track number at most $c(2q)^{c-1}$
     \end{theorem}
     \begin{proof}
 	\begin{itemize}
@@ -519,15 +525,9 @@
     \pause
     \begin{proof}
 	Let $G$ be an outerplanar graph. \pause WLoG assume $G$ is a triangulated polygon. Recursively color the graph as follows:\pause
-	\begin{itemize}
-	    \item Choose $v$ with degree $2$ and neighbors $u$ and $w$.
-		\pause
-	    \item Color $G\setminus v$.
-		\pause
-	    \item Color $v$ using the color $u$ and $w$ don't use. 
-		\pause
-	    \item The addition of $v$ can't create a new bichromatic cycle: Otherwise, $u$ and $w$ would have the same color, but they are neighbors.
-	\end{itemize}
+    \begin{tikzpicture}[overlay]
+	\fill[black] (-30, -30) rectangle (30, -0.5);
+    \end{tikzpicture}
     \end{proof}
 \end{frame}
 

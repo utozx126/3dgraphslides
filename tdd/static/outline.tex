@@ -42,6 +42,8 @@
 	},
 	queue track express/.code={
 	    \draw [red, arrows={->[scale=2]}] (bounded queue number) -- (bounded acyclic chromatic number);
+	    \path (planar graph.south east -| bounded queue number.south east) node [fill=none, align=center, anchor=south] (minor-closed family) {Minor-closed\\graph family};
+	    \draw [red, arrows={->[scale=2]}] (minor-closed family.north) -- (bounded queue number.south east);
 	},
 	planar graph/.code={
 	    \node (planar graph) [rectangle, draw] {Planar graph};
@@ -54,25 +56,25 @@
 	},
 	shown this talk/.code={
 	    \begin{scope}[actual bounds]
-		\node[left=of bounded acyclic chromatic number] {$\xi_a(G) \le 9$};
+		\node[left=of bounded acyclic chromatic number] {$\chi_a(G) \le 9$};
 		\node[right=of bounded queue number] {$\operatorname{qn}(G) \le 42$};
-		\node[left=of bounded track number] {$\operatorname{qn}(G) \le 2.3\cdot10^{16}$};
+		\node[left=of bounded track number] {$\operatorname{tn}(G) \le 2.3\cdot10^{16}$};
 		\node[left=of 3D drawing, align=center] {3D drawing with \\volume $\le 5\cdot10^{49}\cdot n$};
 	    \end{scope}
 	},
 	shown in literature/.code={
 	    \begin{scope}[actual bounds]
-		\node[left=of bounded acyclic chromatic number] {$\xi_a(G) \le 5$};
+		\node[left=of bounded acyclic chromatic number] {$\chi_a(G) \le 5$};
 		\node[right=of bounded queue number] {$\operatorname{qn}(G) \le 42$};
-		\node[left=of bounded track number] {$\operatorname{qn}(G) < 2.5\cdot10^{8}$};
+		\node[left=of bounded track number] {$\operatorname{tn}(G) < 2.5\cdot10^{8}$};
 		\node[left=of 3D drawing, align=center] {3D drawing with \\volume $\le 2.5\cdot10^{17} \cdot n$};
 	    \end{scope}
 	},
 	best possible queue number/.code={
 	    \begin{scope}[actual bounds]
-		\node[left=of bounded acyclic chromatic number] {$\xi_a(G) \le 5$};
+		\node[left=of bounded acyclic chromatic number] {$\chi_a(G) \le 5$};
 		\node[right=of bounded queue number] {$\operatorname{qn}(G) \le 4$};
-		\node[left=of bounded track number] {$\operatorname{qn}(G) \le 20480$};
+		\node[left=of bounded track number] {$\operatorname{tn}(G) \le 20480$};
 		\node[left=of 3D drawing, align=center] {3D drawing with \\volume $<1.6\cdot10^{9} \cdot n$};
 	    \end{scope}
 	},
